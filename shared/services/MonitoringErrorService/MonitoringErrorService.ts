@@ -1,5 +1,7 @@
 import { captureException, init } from '@sentry/browser';
 
+import { configService } from '@example/shared';
+
 class MonitoringErrorService {
   public captureException = captureException;
 
@@ -18,6 +20,6 @@ class MonitoringErrorService {
 }
 
 export const monitoringErrorService = new MonitoringErrorService(
-  import.meta.env.VITE_PUBLIC_SENTRY_DSN,
-  import.meta.env.VITE_PUBLIC_SENTRY_ENV,
+  configService.config.sentryDsn,
+  configService.config.sentryStand,
 );
