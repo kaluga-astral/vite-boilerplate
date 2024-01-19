@@ -1,5 +1,5 @@
 {
-  "name": "@astral/nextjs-boilerplate",
+  "name": "@astral/vite-boilerplate",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "vite dev",
