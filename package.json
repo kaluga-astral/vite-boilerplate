@@ -23,7 +23,6 @@
     "@types/lodash-es": "^4.17.10",
     "@types/query-string": "^6.3.0",
     "@sentry/browser": "7.93.0",
-    "@tanstack/react-router": "1.4.6",
     "react-router-dom": "6.21.2",
     "axios": "^1.5.1",
     "axios-retry": "^3.8.0",

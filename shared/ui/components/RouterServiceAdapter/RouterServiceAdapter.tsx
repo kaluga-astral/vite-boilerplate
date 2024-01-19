@@ -9,10 +9,10 @@ export const RouterServiceAdapter = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    router.setParams({
-      navigate: (path, _params) =>
+    router.init({
+      navigate: (path, params) =>
         typeof path === 'string'
-          ? navigate({ pathname: path, ..._params })
+          ? navigate({ pathname: path, ...params })
           : navigate(path),
     });
   }, []);

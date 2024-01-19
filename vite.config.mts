@@ -1,20 +1,10 @@
-import { resolve } from 'path';
+import path from 'path';
 
 import react from '@vitejs/plugin-react-swc';
-import { type AliasOptions, defineConfig, splitVendorChunkPlugin } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import svgrPlugin from 'vite-plugin-svgr';
-import legacy from '@vitejs/plugin-legacy';
 import dotenv from 'dotenv';
-
-import { compilerOptions } from './tsconfig.json';
-
-const alias: AliasOptions = Object.entries(compilerOptions.paths).reduce(
-  (res, [key, [value]]) => ({
-    ...res,
-    [key.replace('/*', '')]: resolve(__dirname, value.replace('*', '')),
-  }),
-  {},
-);
 
 dotenv.config();
 
@@ -26,17 +16,13 @@ export default defineConfig({
     splitVendorChunkPlugin(),
     react(),
     svgrPlugin({ svgrOptions: { icon: true } }),
-    legacy({
-      targets: ['last 3 versions', 'safari >= 12'],
-    }),
+    tsconfigPaths(),
   ],
-  root: 'pages',
+  root: 'application',
   logLevel: isLocalOrDevStand ? 'info' : 'error',
-  resolve: {
-    alias,
-  },
   build: {
+    target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
     sourcemap: isLocalOrDevStand,
-    outDir: resolve(__dirname, 'dist'),
+    outDir: path.resolve(__dirname, 'dist'),
   },
 });

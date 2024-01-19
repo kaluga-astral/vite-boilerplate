@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import type { CardPaymentStore } from '@example/modules/payment';
 import { createCardPaymentStore } from '@example/modules/payment';
 import { APP_ROUTES, createFlagStore, router } from '@example/shared';
-import type { RouterService } from '@example/shared/services/RouterService';
+import type { RouterService } from '@example/shared';
 
 export class CartScreenStore {
   private readonly modalStore = createFlagStore();

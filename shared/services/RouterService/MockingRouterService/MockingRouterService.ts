@@ -1,5 +1,8 @@
-import type { NavigateHandler, RouterService } from '@example/shared';
+import type { NavigateHandler, RouterService } from '../RouterService';
 
+/**
+ * реализация RouterService, предназначенная в основном для использования в тестах
+ */
 export class MockingRouterService implements RouterService {
   constructor(initPath: string) {
     this.pathname = initPath;

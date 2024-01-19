@@ -2,10 +2,18 @@ import { makeAutoObservable } from 'mobx';
 
 import type { NavigateHandler, RouterService } from '../RouterService';
 
+/**
+ * параметры для инициализации
+ */
 type RouterParams = {
   navigate: NavigateHandler;
 };
 
+/**
+ * реализация RouterService, предназначенная для того,
+ * чтобы адаптировать реакт роутер к апи версии,
+ * и иметь возможность использовать роутер в доменной логике
+ */
 export class AdaptableRouterService implements RouterService {
   private navigateHandler?: NavigateHandler;
 
@@ -20,7 +28,10 @@ export class AdaptableRouterService implements RouterService {
     this.navigateHandler?.(path, params);
   };
 
-  public setParams = (params: RouterParams) => {
+  /**
+   * метод установки параметров необходимых для корректной работы
+   */
+  public init = (params: RouterParams) => {
     this.navigateHandler = params.navigate;
   };
 
@@ -28,6 +39,9 @@ export class AdaptableRouterService implements RouterService {
     return this.currentPathname;
   }
 
+  /**
+   * метод для установки текущего адреса
+   */
   public updatePathname = (pathname: string) => {
     this.currentPathname = pathname;
   };
