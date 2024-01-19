@@ -13,3 +13,5 @@ export * from './constants';
 export * from './illustrations';
 
 export * from './types';
+
+export * from './icons';
