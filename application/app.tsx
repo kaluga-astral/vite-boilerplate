@@ -22,9 +22,10 @@ import {
 import { routes } from './routes';
 
 configService.init({
-  apiUrl: import.meta.env.VITE_PUBLIC_API_URL,
-  sentryDsn: import.meta.env.VITE_PUBLIC_SENTRY_DSN,
-  sentryStand: import.meta.env.VITE_PUBLIC_SENTRY_ENV,
+  apiUrl: import.meta.env.VITE_API_URL,
+  monitoringDsn: import.meta.env.VITE_SENTRY_DSN,
+  monitoringStand: import.meta.env.VITE_SENTRY_ENV,
+  monitoringRelease: import.meta.env.VITE_RELEASE,
 });
 
 initApiHttpClient();

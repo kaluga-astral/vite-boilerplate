@@ -6,6 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import svgrPlugin from 'vite-plugin-svgr';
 import dotenv from 'dotenv';
 
+// используем dotenv, чтобы получить доступ к process.env перед началом сборки
 dotenv.config();
 
 const isLocalOrDevStand =

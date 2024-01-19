@@ -28,9 +28,6 @@ export class AdaptableRouterService implements RouterService {
     this.navigateHandler?.(path, params);
   };
 
-  /**
-   * метод установки параметров необходимых для корректной работы
-   */
   public init = (params: RouterParams) => {
     this.navigateHandler = params.navigate;
   };

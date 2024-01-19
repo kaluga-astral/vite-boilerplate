@@ -1,7 +1,8 @@
 export type Config = {
   apiUrl: string;
-  sentryDsn: string;
-  sentryStand: string;
+  monitoringDsn: string;
+  monitoringStand: string;
+  monitoringRelease: string;
 };
 
 export class ConfigService {

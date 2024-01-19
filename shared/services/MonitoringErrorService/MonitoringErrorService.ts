@@ -2,24 +2,29 @@ import { captureException, init } from '@sentry/browser';
 
 import { configService } from '@example/shared';
 
+type MonitoringErrorServiceConfig = {
+  monitoringDsn: string;
+  monitoringStand: string;
+  monitoringRelease: string;
+};
+
 class MonitoringErrorService {
   public captureException = captureException;
 
-  constructor(dsn: string, stand: string) {
-    this.init(dsn, stand);
+  constructor(config: MonitoringErrorServiceConfig) {
+    this.init(config);
   }
 
-  private init = (dsn: string, stand: string) => {
+  private init = (config: MonitoringErrorServiceConfig) => {
     init({
-      dsn,
-      release: '1.0.0',
-      dist: stand,
+      dsn: config.monitoringDsn,
+      release: config.monitoringRelease,
+      dist: config.monitoringStand,
       tracesSampleRate: 1.0,
     });
   };
 }
 
 export const monitoringErrorService = new MonitoringErrorService(
-  configService.config.sentryDsn,
-  configService.config.sentryStand,
+  configService.config,
 );
