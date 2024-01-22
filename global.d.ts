@@ -1,4 +1,5 @@
 /// <reference types="@astral/ui/declarations" />
+/// <reference types="vite-plugin-svgr/client" />
 
 declare module '*.woff' {
   const src: string;

@@ -1,1 +1,1 @@
-export { ReactComponent as PlayIcon } from './play-icon.svg';
+export * as PlayIcon from './play-icon.svg?react';
