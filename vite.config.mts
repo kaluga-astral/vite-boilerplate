@@ -9,8 +9,8 @@ import dotenv from 'dotenv';
 // используем dotenv, чтобы получить доступ к process.env перед началом сборки
 dotenv.config();
 
-const isLocalOrDevStand =
-  process.env.VITE_STAND === 'local' || process.env.VITE_STAND === 'dev';
+const isProdStand =
+  process.env.VITE_STAND !== 'local' && process.env.VITE_STAND !== 'dev';
 
 export default defineConfig({
   plugins: [
@@ -20,10 +20,10 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   root: 'application',
-  logLevel: isLocalOrDevStand ? 'info' : 'error',
+  logLevel: isProdStand ? 'error' : 'info',
   build: {
     target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
-    sourcemap: isLocalOrDevStand,
+    sourcemap: !isProdStand,
     outDir: path.resolve(__dirname, 'dist'),
   },
 });
