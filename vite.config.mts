@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const isProdStand =
-  process.env.VITE_STAND !== 'local' && process.env.VITE_STAND !== 'dev';
+  Boolean(process.env.VITE_STAND?.match(/production|demo|staging/));
 
 export default defineConfig({
   plugins: [
