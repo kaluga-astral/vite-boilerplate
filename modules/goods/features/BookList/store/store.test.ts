@@ -22,7 +22,7 @@ describe('GoodsListStore', () => {
     // ждем автоматической загрузки данных
     await when(() => Boolean(sut.list?.length));
 
-    expect(sut.list[0]).toContain({
+    expect(sut.list[0]).toMatchObject({
       id: fakeBookListItem.id,
       name: fakeBookListItem.name,
       price: '1 000 руб.',
