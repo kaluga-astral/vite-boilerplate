@@ -1,6 +1,6 @@
 import { captureException, init } from '@sentry/browser';
 
-import { configService } from '@example/shared';
+import { configService } from '../ConfigService';
 
 type MonitoringErrorServiceConfig = {
   monitoringDsn: string;
