@@ -15,3 +15,5 @@ export * from './MonitoringErrorService';
 export * from './CacheService';
 
 export * from './RouterService';
+
+export * from './Faker';
