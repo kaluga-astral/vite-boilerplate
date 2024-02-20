@@ -21,4 +21,4 @@ RUN npm run build
 
 FROM fholzer/nginx-brotli:v1.19.1
 COPY .devops/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /usr/src/app/out /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist /usr/share/nginx/html
