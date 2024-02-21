@@ -8,7 +8,7 @@ import { useBookForm } from './hooks';
 import { Genre } from './Genre';
 import { Author } from './Author';
 import { createBookFormStore } from './store';
-import { BookFormPreview, BookFormWrapper } from './styles';
+import { StyledPreview, Wrapper } from './styles';
 
 export type BookFormProps = {
   onSubmit: (values: BookFormValues) => Promise<void>;
@@ -21,7 +21,7 @@ export const BookForm = observer(({ onSubmit }: BookFormProps) => {
 
   return (
     <FormProvider {...form}>
-      <BookFormWrapper noValidate>
+      <Wrapper noValidate>
         <FormTextField
           required
           control={form.control}
@@ -57,8 +57,8 @@ export const BookForm = observer(({ onSubmit }: BookFormProps) => {
             />
           </fieldset>
         )}
-        <BookFormPreview />
-      </BookFormWrapper>
+        <StyledPreview />
+      </Wrapper>
     </FormProvider>
   );
 });
