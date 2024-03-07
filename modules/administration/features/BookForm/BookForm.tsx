@@ -7,7 +7,7 @@ import type { BookFormValues } from './hooks';
 import { useBookForm } from './hooks';
 import { Genre } from './Genre';
 import { Author } from './Author';
-import { createBookFormStore } from './store';
+import { createUIStore } from './UIStore';
 import { StyledPreview, Wrapper } from './styles';
 
 export type BookFormProps = {
@@ -15,7 +15,7 @@ export type BookFormProps = {
 };
 
 export const BookForm = observer(({ onSubmit }: BookFormProps) => {
-  const [store] = useState(createBookFormStore);
+  const [store] = useState(createUIStore);
 
   const { form, isPresentCoAuthor } = useBookForm(store, { onSubmit });
 

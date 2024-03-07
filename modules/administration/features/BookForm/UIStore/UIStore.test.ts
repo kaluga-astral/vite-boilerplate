@@ -5,7 +5,7 @@ import type { BookRepository, BookRepositoryDTO } from '@example/data';
 import { cacheService } from '@example/shared';
 import type { notify } from '@example/shared';
 
-import { BookFormStore } from './store';
+import { UIStore } from './UIStore';
 
 describe('BookFormStore', () => {
   it('Ошибка при загрузки данных по имени отображает уведомление', async () => {
@@ -19,7 +19,7 @@ describe('BookFormStore', () => {
           },
         ),
     });
-    const sut = new BookFormStore(bookRepositoryStub, notifyMock);
+    const sut = new UIStore(bookRepositoryStub, notifyMock);
 
     sut.findBook('name');
     await when(() => sut.isLoadingBookByName);

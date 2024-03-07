@@ -7,7 +7,7 @@ import type { AdministrationRepository } from '@example/data';
 import type { BookFormValues } from '@example/modules/administration';
 import { APP_ROUTES, createCacheService } from '@example/shared';
 
-import { CreateBookScreenStore } from './store';
+import { UIStore } from './UIStore';
 
 describe('CreateBookScreenStore', () => {
   const makeFakeBookFormValues = (
@@ -27,7 +27,7 @@ describe('CreateBookScreenStore', () => {
     });
     const routerMock = createRouterMock();
     const notifyMock = mock<typeof notify>();
-    const sut = new CreateBookScreenStore(
+    const sut = new UIStore(
       adminRepositoryMock,
       routerMock,
       notifyMock,
@@ -53,7 +53,7 @@ describe('CreateBookScreenStore', () => {
     });
     const notifyMock = mock<typeof notify>();
 
-    const sut = new CreateBookScreenStore(
+    const sut = new UIStore(
       adminRepositoryMock,
       createRouterMock(),
       notifyMock,

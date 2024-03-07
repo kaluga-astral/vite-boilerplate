@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import type { BookRepository } from '@example/data';
 import { bookRepository as bookRepositoryInstance } from '@example/data';
 
-export class GenreStore {
+export class UIStore {
   constructor(private readonly bookRepository: BookRepository) {
     makeAutoObservable(this);
   }
@@ -21,4 +21,4 @@ export class GenreStore {
   }
 }
 
-export const createGenreStore = () => new GenreStore(bookRepositoryInstance);
+export const createUIStore = () => new UIStore(bookRepositoryInstance);

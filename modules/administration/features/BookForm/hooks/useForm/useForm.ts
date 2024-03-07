@@ -7,7 +7,7 @@ import type {
   BookRepositoryDTO,
 } from '@example/data';
 
-import type { BookFormStore } from '../../store';
+import type { UIStore } from '../../UIStore';
 
 type UseBookFormParams = {
   onSubmit: (values: BookFormValues) => Promise<void>;
@@ -53,7 +53,7 @@ const validationSchema = v.object<BookFormValues>({
 });
 
 export const useBookForm = (
-  store: BookFormStore,
+  store: UIStore,
   {
     onSubmit,
     initialValues = { author: {}, isPresentCoAuthor: false },

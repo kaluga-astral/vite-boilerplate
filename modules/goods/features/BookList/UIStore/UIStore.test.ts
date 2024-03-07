@@ -5,7 +5,7 @@ import { bookRepositoryFaker } from '@example/data';
 import { mock } from '@example/shared/_tests';
 import { createCacheService } from '@example/shared';
 
-import { GoodsListStore } from './store';
+import { UIStore } from './UIStore';
 
 describe('GoodsListStore', () => {
   it('Список книг форматируется для отображения', async () => {
@@ -17,7 +17,7 @@ describe('GoodsListStore', () => {
       getBookListQuery: () =>
         cacheService.createQuery(['id'], async () => fakeBookList),
     });
-    const sut = new GoodsListStore(bookRepositoryStub);
+    const sut = new UIStore(bookRepositoryStub);
 
     // ждем автоматической загрузки данных
     await when(() => Boolean(sut.list?.length));

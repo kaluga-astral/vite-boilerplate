@@ -6,7 +6,7 @@ import type { BookRepository } from '@example/data';
 import { cacheService, faker, v } from '@example/shared';
 import type { notify } from '@example/shared';
 
-import { BookFormStore } from '../../store';
+import { UIStore } from '../../UIStore';
 
 import { useBookForm } from './useForm';
 
@@ -21,7 +21,7 @@ describe('useBookForm', () => {
       });
       const notifyMock = mock<typeof notify>();
 
-      const bookFormStore = new BookFormStore(bookRepositoryStub, notifyMock);
+      const bookFormStore = new UIStore(bookRepositoryStub, notifyMock);
 
       const { result } = rtl.renderHook(() =>
         useBookForm(bookFormStore, { onSubmit: async () => {} }),
@@ -47,7 +47,7 @@ describe('useBookForm', () => {
       const bookRepositoryStub = mock<BookRepository>();
       const notifyMock = mock<typeof notify>();
 
-      const bookFormStore = new BookFormStore(bookRepositoryStub, notifyMock);
+      const bookFormStore = new UIStore(bookRepositoryStub, notifyMock);
 
       const { result } = rtl.renderHook(() =>
         useBookForm(bookFormStore, { onSubmit: async () => {} }),
@@ -61,7 +61,7 @@ describe('useBookForm', () => {
       const bookRepositoryStub = mock<BookRepository>();
       const notifyMock = mock<typeof notify>();
 
-      const bookFormStore = new BookFormStore(bookRepositoryStub, notifyMock);
+      const bookFormStore = new UIStore(bookRepositoryStub, notifyMock);
 
       const { result } = rtl.renderHook(() =>
         useBookForm(bookFormStore, {

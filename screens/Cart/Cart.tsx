@@ -5,7 +5,7 @@ import { CartGoodsList } from '@example/modules/cart';
 import { CardPaymentStatus } from '@example/modules/payment';
 import { Button, Dialog, Grid, PageLayout } from '@example/shared';
 
-import { createCartScreenStore } from './store';
+import { createUIStore } from './UIStore';
 
 export const CartScreen = observer(() => {
   const [
@@ -18,7 +18,7 @@ export const CartScreen = observer(() => {
       pay,
       errors,
     },
-  ] = useState(createCartScreenStore);
+  ] = useState(createUIStore);
 
   return (
     <PageLayout

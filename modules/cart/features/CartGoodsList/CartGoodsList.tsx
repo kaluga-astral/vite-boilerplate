@@ -3,14 +3,14 @@ import { useState } from 'react';
 
 import { ContentState, Grid } from '@example/shared';
 
-import { createCartGoodsListStore } from './store';
+import { createUIStore } from './UIStore';
 import { CartGoodsListItem } from './ListItem';
 
 export type CartGoodsListProps = {};
 
 export const CartGoodsList = observer(({}: CartGoodsListProps) => {
   const [{ list, isLoading, errors, refetchList }] = useState(
-    createCartGoodsListStore,
+    createUIStore,
   );
 
   return (

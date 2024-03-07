@@ -5,10 +5,10 @@ import { FormAutocomplete } from '@example/shared';
 
 import { useBookFormContext } from '../hooks';
 
-import { createGenreStore } from './store';
+import { createUIStore } from './UIStore';
 
 export const Genre = observer(() => {
-  const [{ genreList, isLoading }] = useState(createGenreStore);
+  const [{ genreList, isLoading }] = useState(createUIStore);
 
   const { control } = useBookFormContext();
 

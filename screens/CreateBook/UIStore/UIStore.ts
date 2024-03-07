@@ -6,13 +6,13 @@ import { APP_ROUTES, notify, router } from '@example/shared';
 import type { BookFormValues } from '@example/modules/administration';
 import type { RouterService } from '@example/shared';
 
-export class CreateBookScreenStore {
+export class UIStore {
   constructor(
     private readonly administrationRepository: AdministrationRepository,
     private readonly routerService: RouterService,
     private readonly notifyService: typeof notify,
   ) {
-    makeAutoObservable<CreateBookScreenStore, 'routerService'>(this, {
+    makeAutoObservable<UIStore, 'routerService'>(this, {
       routerService: false,
     });
   }
@@ -35,5 +35,5 @@ export class CreateBookScreenStore {
       });
 }
 
-export const createBookScreenStore = () =>
-  new CreateBookScreenStore(administrationRepositoryInstance, router, notify);
+export const createUIStore = () =>
+  new UIStore(administrationRepositoryInstance, router, notify);

@@ -6,7 +6,7 @@ type UserViewModel = {
   displayName: string;
 };
 
-class HeaderStore {
+class UIStore {
   isLoading: boolean = true;
 
   user: UserViewModel = { displayName: '...' };
@@ -29,4 +29,4 @@ class HeaderStore {
   };
 }
 
-export const createHeaderStore = () => new HeaderStore();
+export const createUIStore = () => new UIStore();

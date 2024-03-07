@@ -6,7 +6,7 @@ import { bookRepository as bookRepositoryInstance } from '@example/data';
 
 type SubOnAutocompleteByName = (data: BookRepositoryDTO.BookByNameDTO) => void;
 
-export class BookFormStore {
+export class UIStore {
   private subOnAutocomplete?: SubOnAutocompleteByName;
 
   public isLoadingBookByName = false;
@@ -44,5 +44,5 @@ export class BookFormStore {
   }, 1000);
 }
 
-export const createBookFormStore = () =>
-  new BookFormStore(bookRepositoryInstance, notify);
+export const createUIStore = () =>
+  new UIStore(bookRepositoryInstance, notify);

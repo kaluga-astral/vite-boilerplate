@@ -6,8 +6,8 @@ import { DataGrid, DataGridPagination } from '@example/shared';
 
 import { AddToCartButton } from '../../external';
 
-import type { AvailableSortField, ListItem } from './store';
-import { createGoodsListStore } from './store';
+import type { AvailableSortField, ListItem } from './UIStore';
+import { createUIStore } from './UIStore';
 
 export const BookList = observer(() => {
   const [
@@ -20,7 +20,7 @@ export const BookList = observer(() => {
       pagination,
       sort,
     },
-  ] = useState(createGoodsListStore);
+  ] = useState(createUIStore);
 
   const handleSort = (newSort?: DataGridSort<AvailableSortField>) => {
     if (newSort) {

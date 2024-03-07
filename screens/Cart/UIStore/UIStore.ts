@@ -5,14 +5,14 @@ import { createCardPaymentStore } from '@example/modules/payment';
 import { APP_ROUTES, createFlagStore, router } from '@example/shared';
 import type { RouterService } from '@example/shared';
 
-export class CartScreenStore {
+export class UIStore {
   private readonly modalStore = createFlagStore();
 
   constructor(
     private readonly cardPaymentStore: CardPaymentStore,
     private readonly routerService: RouterService,
   ) {
-    makeAutoObservable<CartScreenStore, 'routerService'>(this, {
+    makeAutoObservable<UIStore, 'routerService'>(this, {
       routerService: false,
     });
   }
@@ -51,5 +51,5 @@ export class CartScreenStore {
   };
 }
 
-export const createCartScreenStore = () =>
-  new CartScreenStore(createCardPaymentStore(), router);
+export const createUIStore = () =>
+  new UIStore(createCardPaymentStore(), router);

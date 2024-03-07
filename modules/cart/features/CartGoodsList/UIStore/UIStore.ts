@@ -14,7 +14,7 @@ export type ListItem = {
   itemStore: ProductCartManagerStore;
 };
 
-export class CartGoodsListStore {
+export class UIStore {
   constructor(private readonly cartRepository: CartRepository) {
     makeAutoObservable(this);
   }
@@ -47,5 +47,5 @@ export class CartGoodsListStore {
   };
 }
 
-export const createCartGoodsListStore = () =>
-  new CartGoodsListStore(cartRepositoryInstance);
+export const createUIStore = () =>
+  new UIStore(cartRepositoryInstance);

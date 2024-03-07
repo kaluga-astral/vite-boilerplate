@@ -22,7 +22,7 @@ export type AvailableSortField = 'name' | 'price';
 
 type SortData = Required<SortInputDTO<AvailableSortField>>;
 
-export class GoodsListStore {
+export class UIStore {
   public sort?: SortData;
 
   public pagination: PaginationInputDTO = { count: 10, offset: 0, page: 0 };
@@ -66,5 +66,5 @@ export class GoodsListStore {
   };
 }
 
-export const createGoodsListStore = () =>
-  new GoodsListStore(bookRepositoryInstance);
+export const createUIStore = () =>
+  new UIStore(bookRepositoryInstance);

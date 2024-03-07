@@ -14,10 +14,10 @@ import {
   QuitOutlineMd,
 } from '@example/shared';
 
-import { createHeaderStore } from './store';
+import { createUIStore } from './UIStore';
 
 export const Header = observer(() => {
-  const [{ user }] = useState(createHeaderStore);
+  const [{ user }] = useState(createUIStore);
 
   return (
     <DashboardLayout.Header

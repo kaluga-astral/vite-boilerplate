@@ -2,12 +2,12 @@ import { createRouterMock, mock } from '@example/shared/_tests';
 import type { CardPaymentStore } from '@example/modules/payment';
 import { APP_ROUTES } from '@example/shared';
 
-import { CartScreenStore } from './store';
+import { UIStore } from './UIStore';
 
 describe('CartScreenStore', () => {
   it('Процесс оплаты запускается фоном при открытии модалки', () => {
     const cartPaymentStoreMock = mock<CardPaymentStore>();
-    const sut = new CartScreenStore(cartPaymentStoreMock, createRouterMock());
+    const sut = new UIStore(cartPaymentStoreMock, createRouterMock());
 
     sut.openModal();
     expect(cartPaymentStoreMock.pay).toBeCalled();
@@ -20,7 +20,7 @@ describe('CartScreenStore', () => {
       },
     });
     const routerMock = createRouterMock();
-    const sut = new CartScreenStore(cartPaymentStoreMock, routerMock);
+    const sut = new UIStore(cartPaymentStoreMock, routerMock);
 
     sut.pay();
     expect(routerMock.pathname).toBe(APP_ROUTES.cart.getRedirectPath());

@@ -4,7 +4,7 @@ import type { CartRepository } from '@example/data';
 import { cartRepository as cartRepositoryInstance } from '@example/data';
 import { APP_ROUTES, router } from '@example/shared';
 
-export class CartBadgeStore {
+export class UIStore {
   constructor(private readonly cartRepository: CartRepository) {
     makeAutoObservable(this);
   }
@@ -26,5 +26,5 @@ export class CartBadgeStore {
   };
 }
 
-export const createCartBadgeStore = () =>
-  new CartBadgeStore(cartRepositoryInstance);
+export const createUIStore = () =>
+  new UIStore(cartRepositoryInstance);

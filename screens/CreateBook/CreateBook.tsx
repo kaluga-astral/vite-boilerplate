@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { PageLayout } from '@example/shared';
 import { BookForm } from '@example/modules/administration';
 
-import { createBookScreenStore } from './store';
+import { createUIStore } from './UIStore';
 
 export const CreateBookScreen = observer(() => {
-  const [{ createBook }] = useState(createBookScreenStore);
+  const [{ createBook }] = useState(createUIStore);
 
   return (
     <PageLayout

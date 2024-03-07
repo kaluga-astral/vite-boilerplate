@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 import { Badge, CartOutlineMd, IconButton } from '@example/shared';
 
-import { createCartBadgeStore } from './store';
+import { createUIStore } from './UIStore';
 
 export const CartBadge = observer(() => {
   const [{ isAccessCount, count, redirectToCart }] =
-    useState(createCartBadgeStore);
+    useState(createUIStore);
 
   return (
     <Badge color="error" badgeContent={isAccessCount ? count : undefined}>
