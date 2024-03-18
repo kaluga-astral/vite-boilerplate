@@ -16,7 +16,7 @@ File Templates, File Templates (schemes)).
 
 ```
 1. Component - создание React Component-а с props;
-2. NameLessStore - создание стора по пути ./store/store.ts;
+2. UIStore - создание UI-стора
 3. NamedStore - создание стора по пути ./$Name}Store/${Name}Store.ts
 4. Screen - создание сущности screen без стора 
 5. ScreenWithStore - создание сущности screen со стором

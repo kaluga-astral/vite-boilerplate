@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { create<FTName | pascalcase>Store } from './store';
+import { createUIStore } from './UIStore';
 
 export const <FTName | pascalcase> = observer(() => {
-  const [store] = useState(create<FTName | pascalcase>Store);
+  const [store] = useState(createUIStore);
 
   return ();
 });
