@@ -1,5 +1,4 @@
-import { vi } from 'vitest';
-
+import { describe, expect, it, vi } from 'vitest';
 import { createRouterMock, mock } from '@example/shared/_tests';
 import type { notify } from '@example/shared';
 import { bookRepositoryFaker } from '@example/data';
@@ -27,11 +26,7 @@ describe('CreateBookScreenStore', () => {
     });
     const routerMock = createRouterMock();
     const notifyMock = mock<typeof notify>();
-    const sut = new UIStore(
-      adminRepositoryMock,
-      routerMock,
-      notifyMock,
-    );
+    const sut = new UIStore(adminRepositoryMock, routerMock, notifyMock);
 
     return { sut, notifyMock, routerMock };
   };

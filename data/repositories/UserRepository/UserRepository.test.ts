@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { createCacheService, faker } from '@example/shared';
 import { mock } from '@example/shared/_tests';
 

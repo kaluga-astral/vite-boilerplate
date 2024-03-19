@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@testing-library/jest-dom/vitest';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { beforeEach } from 'vitest';
 import { random } from 'lodash-es';
 
 import { faker } from './shared/services/Faker';

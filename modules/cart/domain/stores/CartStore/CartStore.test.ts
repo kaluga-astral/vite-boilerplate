@@ -1,5 +1,4 @@
-import { vi } from 'vitest';
-
+import { describe, expect, it, vi } from 'vitest';
 import type { CartRepository } from '@example/data';
 import { mock } from '@example/shared/_tests';
 import type { notify } from '@example/shared';

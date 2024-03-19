@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { when } from 'mobx';
 
 import { mock, rtl } from '@example/shared/_tests';

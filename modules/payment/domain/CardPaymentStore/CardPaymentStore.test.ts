@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { mock } from '@example/shared/_tests';
 import type { PaymentRepository } from '@example/data';
 import { cartRepositoryFaker } from '@example/data';

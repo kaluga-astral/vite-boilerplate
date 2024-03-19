@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { createRouterMock, mock } from '@example/shared/_tests';
 import type { CardPaymentStore } from '@example/modules/payment';
 import { APP_ROUTES } from '@example/shared';

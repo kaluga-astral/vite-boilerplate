@@ -15,7 +15,6 @@ export default defineConfig({
     conditions: ['vitest'],
   },
   test: {
-    globals: true,
     environment: 'jsdom',
     setupFiles: path.resolve(__dirname, 'vitest.setup.js'),
     exclude: [...configDefaults.exclude, '.templates'],
