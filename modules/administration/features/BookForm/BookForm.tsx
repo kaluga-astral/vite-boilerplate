@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 import { FormCheckbox, FormProvider, FormTextField } from '@example/shared';
 
-import type { BookFormValues } from './hooks';
-import { useBookForm } from './hooks';
+import type { BookFormValues } from './useLogic';
+import { useLogic } from './useLogic';
 import { Genre } from './Genre';
 import { Author } from './Author';
 import { createUIStore } from './UIStore';
@@ -17,7 +17,7 @@ export type BookFormProps = {
 export const BookForm = observer(({ onSubmit }: BookFormProps) => {
   const [store] = useState(createUIStore);
 
-  const { form, isPresentCoAuthor } = useBookForm(store, { onSubmit });
+  const { form, isPresentCoAuthor } = useLogic(store, { onSubmit });
 
   return (
     <FormProvider {...form}>

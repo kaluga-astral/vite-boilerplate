@@ -1,13 +1,13 @@
 import { Description, Grid } from '@example/shared';
 
-import { useFormPreview } from './useForm';
+import { useLogic } from './useLogic';
 
 type Props = {
   className?: string;
 };
 
 export const Preview = ({ className }: Props) => {
-  const { name, authorFullName } = useFormPreview();
+  const { name, authorFullName } = useLogic();
 
   return (
     <Grid className={className} spacing={2}>

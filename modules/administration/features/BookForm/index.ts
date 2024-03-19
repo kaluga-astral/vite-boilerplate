@@ -1,3 +1,3 @@
 export * from './BookForm';
 
-export type { BookFormValues } from './hooks';
+export type { BookFormValues } from './useLogic';

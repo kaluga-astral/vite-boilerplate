@@ -6,11 +6,11 @@ import type { BookRepository } from '@example/data';
 import { cacheService, faker, v } from '@example/shared';
 import type { notify } from '@example/shared';
 
-import { UIStore } from '../../UIStore';
+import { UIStore } from '../UIStore';
 
-import { useBookForm } from './useForm';
+import { useLogic } from './useLogic';
 
-describe('useBookForm', () => {
+describe('useLogic', () => {
   describe('Автозаполнение полей формы', () => {
     it('Происходит при изменении поля name', async () => {
       const fakeBook = bookRepositoryFaker.makeBookByName();
@@ -24,7 +24,7 @@ describe('useBookForm', () => {
       const bookFormStore = new UIStore(bookRepositoryStub, notifyMock);
 
       const { result } = rtl.renderHook(() =>
-        useBookForm(bookFormStore, { onSubmit: async () => {} }),
+        useLogic(bookFormStore, { onSubmit: async () => {} }),
       );
       const sut = result.current;
 
@@ -50,7 +50,7 @@ describe('useBookForm', () => {
       const bookFormStore = new UIStore(bookRepositoryStub, notifyMock);
 
       const { result } = rtl.renderHook(() =>
-        useBookForm(bookFormStore, { onSubmit: async () => {} }),
+        useLogic(bookFormStore, { onSubmit: async () => {} }),
       );
       const sut = result.current;
 
@@ -64,7 +64,7 @@ describe('useBookForm', () => {
       const bookFormStore = new UIStore(bookRepositoryStub, notifyMock);
 
       const { result } = rtl.renderHook(() =>
-        useBookForm(bookFormStore, {
+        useLogic(bookFormStore, {
           onSubmit: async () => {},
           initialValues: {
             isPresentCoAuthor: true,

@@ -1,9 +1,10 @@
 import { FormTextField, Grid } from '@example/shared';
+import { useFormContext } from '@example/shared';
 
-import { useBookFormContext } from '../hooks';
+import type { BookFormValues } from '../useLogic';
 
 export const Author = () => {
-  const { control } = useBookFormContext();
+  const { control } = useFormContext<BookFormValues>();
 
   return (
     <Grid component="fieldset" spacing={2} columns={2}>
