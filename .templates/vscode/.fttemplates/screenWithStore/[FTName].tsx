@@ -3,10 +3,10 @@ import { observer } from 'mobx-react-lite';
 
 import { PageLayout } from '@example/shared';
 
-import { create<FTName>ScreenStore } from './store';
+import { createUIStore } from './UIStore';
 
-export const  <FTName | pascalcase>Screen = observer(() => {
-  const [store] = useState(create<FTName | pascalcase>ScreenStore);
+export const <FTName | pascalcase>Screen = observer(() => {
+  const [store] = useState(createUIStore);
 
   return (
     <PageLayout

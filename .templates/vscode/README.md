@@ -27,7 +27,7 @@ repository - создание сущности repository
 feature - создание сущности feature
 screen - создание сущности screen
 screenWithStore - создание сущности screen + mobxStore
-nameLessStore - создание mobX-стора по пути store/store.ts
+UIStore - создание UI-стора
 namedStore - создание именнованного mobx-store (namedStore/namedStore.ts)
 utilityFunction - создание функции-утилиты
 ```
