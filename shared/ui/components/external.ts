@@ -1,6 +1,7 @@
 export {
   ThemeProvider,
   DashboardLayout,
+  type NavMenuProps,
   Divider,
   ListItemIcon,
   Dialog,

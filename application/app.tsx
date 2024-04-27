@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
-import { enableStaticRendering as enableMobxStaticRendering } from 'mobx-react-lite';
+import {
+  enableStaticRendering as enableMobxStaticRendering,
+  observer,
+} from 'mobx-react-lite';
 import { useRoutes } from 'react-router-dom';
 
 import { authStore } from '@example/modules/auth';
+import { CriticalPermissionsGate } from '@example/modules/permissions';
 import { MainLayout } from '@example/modules/layout';
 import {
   ConfigProvider,
@@ -31,7 +35,7 @@ configService.init({
 initApiHttpClient();
 enableMobxStaticRendering(typeof window === 'undefined');
 
-export const App = () => {
+export const App = observer(() => {
   const renderRoutes = useRoutes(routes);
 
   useEffect(() => {
@@ -51,10 +55,12 @@ export const App = () => {
       <RouterServiceAdapter />
       <ThemeProvider theme={theme}>
         <NotificationContainer />
-        <MainLayout>{renderRoutes}</MainLayout>
+        <CriticalPermissionsGate>
+          <MainLayout>{renderRoutes}</MainLayout>
+        </CriticalPermissionsGate>
       </ThemeProvider>
     </ConfigProvider>
   );
-};
+});
 
 export default App;
