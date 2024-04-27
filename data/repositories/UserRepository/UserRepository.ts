@@ -2,7 +2,7 @@ import type { CacheService } from '@example/shared';
 import { cacheService } from '@example/shared';
 
 import type { UserNetworkSources } from '../../sources';
-import { userNetworkSources as userNetworkSourcesInstance } from '../../sources';
+import { fakeUserNetworkSources } from '../../sources';
 
 import type { UserRepositoryDTO } from './dto';
 
@@ -37,6 +37,13 @@ export class UserRepository {
       },
     );
 
+  public getRolesQuery = () =>
+    this.cache.createQuery<UserRepositoryDTO.CurrentRoles>(['user-roles'], () =>
+      this.userNetworkSources
+        .getRoles()
+        .then(({ data }) => data.map((role) => role as UserRepositoryDTO.Role)),
+    );
+
   public getContactInfoQuery = () =>
     this.cache.createQuery<UserRepositoryDTO.UserContactDTO>(
       this.contactInfoCacheKey,
@@ -51,6 +58,6 @@ export class UserRepository {
 }
 
 export const userRepository = new UserRepository(
-  userNetworkSourcesInstance,
+  fakeUserNetworkSources,
   cacheService,
 );
