@@ -1,3 +1,5 @@
-export const AccessDeniedScreen = () => {
-  return <p>Доступ закрыт</p>;
+type Props = { advice: string };
+
+export const AccessDeniedScreen = ({ advice }: Props) => {
+  return <p>{advice}</p>;
 };
