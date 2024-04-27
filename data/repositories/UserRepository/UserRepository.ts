@@ -39,9 +39,9 @@ export class UserRepository {
 
   public getRolesQuery = () =>
     this.cache.createQuery<UserRepositoryDTO.CurrentRoles>(['user-roles'], () =>
-      this.userNetworkSources
-        .getRoles()
-        .then(({ data }) => data.map((role) => role as UserRepositoryDTO.Role)),
+      this.userNetworkSources.getRoles().then(({ data }) => ({
+        isAdmin: data.includes('admin'),
+      })),
     );
 
   public getContactInfoQuery = () =>

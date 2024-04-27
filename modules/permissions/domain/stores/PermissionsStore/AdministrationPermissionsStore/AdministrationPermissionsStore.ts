@@ -1,12 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
-import { UserRepositoryDTO, userRepository } from '@example/data';
 
-import type { Permission } from '../types';
+import type { Permissions } from '../types';
 import { createPermission } from '../utils';
-
-import { AdministrationPermissionsReason } from './enums';
+import { REASONS } from '../enums';
 
 export class AdministrationPermissionsStore {
   constructor(private readonly userRepo: UserRepository) {
@@ -21,24 +19,17 @@ export class AdministrationPermissionsStore {
     await Promise.all([this.userRolesQuery.async()]);
   };
 
-  public get administrationActions(): Permission {
-    return createPermission(this.userRolesQuery.isSuccess, () => {
-      if (this.userRolesQuery.data?.includes(UserRepositoryDTO.Role.Admin)) {
-        return { isAllowed: true };
+  public get administrationActions(): Permissions.Permission {
+    return createPermission(this.userRolesQuery.isSuccess, (allow, deny) => {
+      if (this.userRolesQuery.data?.isAdmin) {
+        return allow();
       }
 
-      return {
-        isAllowed: false,
-        reasons: [
-          {
-            id: AdministrationPermissionsReason.NoAdmin,
-            advice: 'Функционал доступен только администратору',
-          },
-        ],
-      };
+      deny(REASONS.admin.noAdmin);
     });
   }
 }
 
-export const createAdministrationPermissionsStore = () =>
-  new AdministrationPermissionsStore(userRepository);
+export const createAdministrationPermissionsStore = (
+  userRepo: UserRepository,
+) => new AdministrationPermissionsStore(userRepo);

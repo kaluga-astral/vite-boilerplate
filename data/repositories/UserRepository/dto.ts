@@ -8,10 +8,7 @@ export namespace UserRepositoryDTO {
   export type UserFullInfoDTO = UserNetworkSourcesDTO.PersonDTO &
     UserNetworkSourcesDTO.ContactDTO;
 
-  export enum Role {
-    Admin = 'admin',
-    User = 'user',
-  }
-
-  export type CurrentRoles = Role[];
+  export type CurrentRoles = {
+    isAdmin: boolean;
+  };
 }
