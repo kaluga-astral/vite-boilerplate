@@ -1,3 +1,5 @@
+import type { CacheMutation } from '@example/shared';
+
 export namespace Permissions {
   type AllowedPermission = {
     isAllowed: true;
@@ -16,4 +18,8 @@ export namespace Permissions {
   };
 
   export type Permission = AllowedPermission | DenyPermission;
+}
+
+export interface IPermissionStore<TPreparingData = unknown> {
+  getPrepareDataMutation: () => CacheMutation<TPreparingData>;
 }

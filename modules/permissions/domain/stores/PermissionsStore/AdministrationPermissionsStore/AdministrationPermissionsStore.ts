@@ -2,11 +2,11 @@ import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
 
-import type { Permissions } from '../types';
+import type { IPermissionStore, Permissions } from '../types';
 import { createPermission } from '../utils';
 import { REASONS } from '../enums';
 
-export class AdministrationPermissionsStore {
+export class AdministrationPermissionsStore implements IPermissionStore {
   constructor(private readonly userRepo: UserRepository) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

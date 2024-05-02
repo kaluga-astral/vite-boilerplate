@@ -4,10 +4,11 @@ import type { BillingRepository } from '@example/data';
 import type { UserRepository } from '@example/data';
 
 import { createPermission } from '../utils';
+import type { IPermissionStore } from '../types';
 
 import { BookDenyPermissionsReason } from './enums';
 
-export class BookPermissionsStore {
+export class BooksPermissionsStore implements IPermissionStore {
   constructor(
     private readonly billingRepo: BillingRepository,
     private readonly userRepo: UserRepository,
@@ -55,7 +56,7 @@ export class BookPermissionsStore {
   }
 }
 
-export const createBookPermissionsStore = (
+export const createBooksPermissionsStore = (
   billingRepo: BillingRepository,
   userRepo: UserRepository,
-) => new BookPermissionsStore(billingRepo, userRepo);
+) => new BooksPermissionsStore(billingRepo, userRepo);
