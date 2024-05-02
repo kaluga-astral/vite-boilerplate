@@ -12,6 +12,10 @@ export enum DenialReason {
   /**
    * Недостаточно данных для формирования доступа
    * **/
-  NoData,
+  MissingData,
   NotForYourAge,
+  /**
+   * Пользователь не указал дату рождения
+   * **/
+  MissingUserAge,
 }
