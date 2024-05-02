@@ -19,7 +19,7 @@ export class PaymentPolicyStore implements IPermissionStore {
       await Promise.all([this.userRepo.getPersonInfoQuery().async()]);
     });
 
-  public checkPaymentPermission = (acceptableAge: number) =>
+  public checkPayment = (acceptableAge: number) =>
     createUserAgePermission(
       this.userRepo.getPersonInfoQuery().isSuccess,
       acceptableAge,

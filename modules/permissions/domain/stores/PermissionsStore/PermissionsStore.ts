@@ -9,11 +9,15 @@ import type { AdministrationPermissionsStore } from './AdministrationPermissions
 import { createAdministrationPermissionsStore } from './AdministrationPermissionsStore';
 import type { BooksPermissionsStore } from './BooksPermissionsStore';
 import { createBooksPermissionsStore } from './BooksPermissionsStore';
+import type { PaymentPolicyStore } from './PaymentPolicyStore';
+import { createPaymentPolicyStore } from './PaymentPolicyStore';
 
 export class PermissionsStore {
   public readonly administration: AdministrationPermissionsStore;
 
   public readonly books: BooksPermissionsStore;
+
+  public readonly payment: PaymentPolicyStore;
 
   constructor(
     private readonly userRepo: UserRepository,
@@ -23,12 +27,13 @@ export class PermissionsStore {
     makeAutoObservable(this, {}, { autoBind: true });
     this.administration = createAdministrationPermissionsStore(cache, userRepo);
     this.books = createBooksPermissionsStore(cache, billingRepo, userRepo);
+    this.payment = createPaymentPolicyStore(userRepo, cache);
   }
 
   /**
    Запрашивает данные, которые необходимы для формирования базовых permissions
   **/
-  public getPrepareCriticalDataMutation = () =>
+  public getPrepareDataMutation = () =>
     this.cache.createMutation(async () => {
       await Promise.all([this.userRepo.getRolesQuery().async()]);
     });

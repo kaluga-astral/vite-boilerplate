@@ -9,9 +9,11 @@ export const createPermission = (
   ) => void,
 ): Permissions.Permission => {
   if (!isDataAvailable) {
+    console.warn('При вычислении доступа не было получено необходимых данных');
+
     return {
       isAllowed: false,
-      reason: DenialReason.NoData,
+      reason: DenialReason.MissingData,
     };
   }
 
