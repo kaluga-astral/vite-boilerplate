@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import type { UserRepository } from '@example/data';
 import type { CacheService } from '@example/shared';
 
-import { createUserAgePermission } from '../rules';
+import { createUserAgePermission } from '../utils';
 import type { IPermissionStore } from '../types';
 
 export class PaymentPolicyStore implements IPermissionStore {
