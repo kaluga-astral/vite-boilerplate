@@ -1,15 +1,16 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { BillingRepository } from '@example/data';
+import type { CacheService } from '@example/shared';
 import type { UserRepository } from '@example/data';
 
 import { createPermission } from '../utils';
 import type { IPermissionStore } from '../types';
-
-import { BookDenyPermissionsReason } from './enums';
+import { DenialReason } from '../enums';
 
 export class BooksPermissionsStore implements IPermissionStore {
   constructor(
+    private readonly cache: CacheService,
     private readonly billingRepo: BillingRepository,
     private readonly userRepo: UserRepository,
   ) {
@@ -24,12 +25,13 @@ export class BooksPermissionsStore implements IPermissionStore {
     return this.userRepo.getRolesQuery();
   }
 
-  public prepareData = async () => {
-    await Promise.all([
-      this.userRolesQuery.async(),
-      this.billingInfoQuery.async(),
-    ]);
-  };
+  public getPrepareDataMutation = () =>
+    this.cache.createMutation(async () => {
+      await Promise.all([
+        this.userRolesQuery.async(),
+        this.billingInfoQuery.async(),
+      ]);
+    });
 
   public get readingOnline() {
     return createPermission(
@@ -40,14 +42,14 @@ export class BooksPermissionsStore implements IPermissionStore {
         }
 
         if (!this.billingInfoQuery.data?.paid) {
-          return deny(BookDenyPermissionsReason.NoSubscription);
+          return deny(DenialReason.NoPayAccount);
         }
 
         if (
           this.billingInfoQuery.data.info.onlineReading.allowedCount ===
           this.billingInfoQuery.data.info.onlineReading.currentCount
         ) {
-          return deny(BookDenyPermissionsReason.ExceededOnlineReading);
+          return deny(DenialReason.ExceedReadingCount);
         }
 
         allow();
@@ -57,6 +59,7 @@ export class BooksPermissionsStore implements IPermissionStore {
 }
 
 export const createBooksPermissionsStore = (
+  cacheService: CacheService,
   billingRepo: BillingRepository,
   userRepo: UserRepository,
-) => new BooksPermissionsStore(billingRepo, userRepo);
+) => new BooksPermissionsStore(cacheService, billingRepo, userRepo);

@@ -1,13 +1,17 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
+import type { CacheService } from '@example/shared';
 
 import type { IPermissionStore, Permissions } from '../types';
 import { createPermission } from '../utils';
-import { REASONS } from '../enums';
+import { DenialReason } from '../enums';
 
 export class AdministrationPermissionsStore implements IPermissionStore {
-  constructor(private readonly userRepo: UserRepository) {
+  constructor(
+    private readonly cache: CacheService,
+    private readonly userRepo: UserRepository,
+  ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
@@ -15,9 +19,10 @@ export class AdministrationPermissionsStore implements IPermissionStore {
     return this.userRepo.getRolesQuery();
   }
 
-  public prepareData = async (): Promise<void> => {
-    await Promise.all([this.userRolesQuery.async()]);
-  };
+  public getPrepareDataMutation = () =>
+    this.cache.createMutation(async (): Promise<void> => {
+      await Promise.all([this.userRolesQuery.async()]);
+    });
 
   public get administrationActions(): Permissions.Permission {
     return createPermission(this.userRolesQuery.isSuccess, (allow, deny) => {
@@ -25,11 +30,12 @@ export class AdministrationPermissionsStore implements IPermissionStore {
         return allow();
       }
 
-      deny(REASONS.admin.noAdmin);
+      deny(DenialReason.NoAdmin);
     });
   }
 }
 
 export const createAdministrationPermissionsStore = (
+  cacheService: CacheService,
   userRepo: UserRepository,
-) => new AdministrationPermissionsStore(userRepo);
+) => new AdministrationPermissionsStore(cacheService, userRepo);

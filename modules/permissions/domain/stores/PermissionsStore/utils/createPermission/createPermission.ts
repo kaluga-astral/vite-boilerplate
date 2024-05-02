@@ -1,17 +1,17 @@
-import { CommonPermissionsReason } from '../../enums';
+import { DenialReason } from '../../enums';
 import type { Permissions } from '../../types';
 
 export const createPermission = (
   isDataAvailable: boolean,
   checkPermission: (
     allow: () => void,
-    deny: (...reasons: Permissions.DenyReason[]) => void,
+    deny: (reason: DenialReason) => void,
   ) => void,
 ): Permissions.Permission => {
   if (!isDataAvailable) {
     return {
       isAllowed: false,
-      reasons: [CommonPermissionsReason.NoData],
+      reason: DenialReason.NoData,
     };
   }
 
@@ -21,15 +21,15 @@ export const createPermission = (
     result = { isAllowed: true };
   };
 
-  const deny = (...reasons: Permissions.DenyReason[]) => {
-    result = { isAllowed: false, reasons };
+  const deny = (reason: DenialReason) => {
+    result = { isAllowed: false, reason };
   };
 
   checkPermission(allow, deny);
 
   if (!result) {
     console.error('Результат проверки доступа не получен');
-    result = { isAllowed: false, reasons: [] };
+    result = { isAllowed: false, reason: DenialReason.InternalError };
   }
 
   return result;
