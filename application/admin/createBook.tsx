@@ -1,7 +1,10 @@
 import { observer } from 'mobx-react-lite';
 
 import { AccessDeniedScreen, CreateBookScreen } from '@example/screens';
-import { permissionsStore } from '@example/modules/permissions';
+import {
+  PermissionsLoader,
+  permissionsStore,
+} from '@example/modules/permissions';
 
 const CreateBookPage = observer(() => {
   if (!permissionsStore.administration.administrationActions.isAllowed) {
@@ -15,7 +18,11 @@ const CreateBookPage = observer(() => {
     );
   }
 
-  return <CreateBookScreen />;
+  return (
+    <PermissionsLoader policies={['administration']}>
+      <CreateBookScreen />
+    </PermissionsLoader>
+  );
 });
 
 export default CreateBookPage;

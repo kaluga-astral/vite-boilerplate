@@ -9,8 +9,10 @@ type Props = { children: ReactNode };
 
 export const MainLayout = ({ children }: Props) => (
   <DashboardLayout>
-    <Header />
-    <Sidebar />
-    <DashboardLayout.Main>{children}</DashboardLayout.Main>
+    <PermissionsLoader permissions={['administrations, books']}>
+      <Header />
+      <Sidebar />
+      <DashboardLayout.Main>{children}</DashboardLayout.Main>
+    </PermissionsLoader>
   </DashboardLayout>
 );

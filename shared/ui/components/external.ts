@@ -27,6 +27,7 @@ export {
   FormCheckbox,
   type FormCheckboxValue,
   ContentState,
+  type ContentStateProps,
   Autocomplete,
   FormAutocomplete,
   type FormAutocompleteProps,

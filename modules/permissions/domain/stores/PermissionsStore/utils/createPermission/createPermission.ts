@@ -1,5 +1,5 @@
 import { DenialReason } from '../../enums';
-import type { Permissions } from '../../types';
+import type { Permission } from '../../types';
 
 export type CheckPermission = (
   allow: () => void,
@@ -9,7 +9,7 @@ export type CheckPermission = (
 export const createPermission = (
   isDataAvailable: boolean,
   checkPermission: CheckPermission,
-): Permissions.Permission => {
+): Permission => {
   if (!isDataAvailable) {
     console.warn('При вычислении доступа не было получено необходимых данных');
 
@@ -19,7 +19,7 @@ export const createPermission = (
     };
   }
 
-  let result: Permissions.Permission | null = null;
+  let result: Permission | null = null;
 
   const allow = () => {
     result = { isAllowed: true };

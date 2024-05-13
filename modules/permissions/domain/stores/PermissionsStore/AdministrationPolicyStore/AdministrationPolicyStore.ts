@@ -26,7 +26,9 @@ export class AdministrationPolicyStore implements Policy {
     return this.userRepo.getRolesQuery();
   }
 
-  public prepareData = () => this.policy.prepareData();
+  public get prepareData() {
+    return this.policy.prepareData;
+  }
 
   public get preparingDataStatus() {
     return this.policy.preparingDataStatus;

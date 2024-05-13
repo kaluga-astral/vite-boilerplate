@@ -22,7 +22,9 @@ export class PaymentPolicyStore implements Policy {
     });
   }
 
-  public prepareData = () => this.policy.prepareData();
+  public get prepareData() {
+    return this.policy.prepareData;
+  }
 
   public get preparingDataStatus() {
     return this.policy.preparingDataStatus;
