@@ -5,42 +5,34 @@ import type { CacheService } from '@example/shared';
 import { billingRepository, userRepository } from '@example/data';
 import type { BillingRepository, UserRepository } from '@example/data';
 
-import type { AdministrationPermissionsStore } from './AdministrationPermissionsStore';
-import { createAdministrationPermissionsStore } from './AdministrationPermissionsStore';
-import type { BooksPermissionsStore } from './BooksPermissionsStore';
-import { createBooksPermissionsStore } from './BooksPermissionsStore';
+import type { AdministrationPolicyStore } from './AdministrationPolicyStore';
+import { createAdministrationPolicyStore } from './AdministrationPolicyStore';
+import type { BooksPolicyStore } from './BooksPolicyStore';
+import { createBooksPolicyStore } from './BooksPolicyStore';
 import type { PaymentPolicyStore } from './PaymentPolicyStore';
 import { createPaymentPolicyStore } from './PaymentPolicyStore';
 
 export class PermissionsStore {
-  public readonly administration: AdministrationPermissionsStore;
+  public readonly administration: AdministrationPolicyStore;
 
-  public readonly books: BooksPermissionsStore;
+  public readonly books: BooksPolicyStore;
 
   public readonly payment: PaymentPolicyStore;
 
   constructor(
-    private readonly userRepo: UserRepository,
-    private readonly billingRepo: BillingRepository,
-    private readonly cache: CacheService,
+    billingRepo: BillingRepository,
+    userRepo: UserRepository,
+    cache: CacheService,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
-    this.administration = createAdministrationPermissionsStore(cache, userRepo);
-    this.books = createBooksPermissionsStore(cache, billingRepo, userRepo);
+    this.administration = createAdministrationPolicyStore(cache, userRepo);
+    this.books = createBooksPolicyStore(cache, billingRepo, userRepo);
     this.payment = createPaymentPolicyStore(userRepo, cache);
   }
-
-  /**
-   Запрашивает данные, которые необходимы для формирования базовых permissions
-  **/
-  public getPrepareDataMutation = () =>
-    this.cache.createMutation(async () => {
-      await Promise.all([this.userRepo.getRolesQuery().async()]);
-    });
 }
 
 export const permissionsStore = new PermissionsStore(
-  userRepository,
   billingRepository,
+  userRepository,
   cacheService,
 );

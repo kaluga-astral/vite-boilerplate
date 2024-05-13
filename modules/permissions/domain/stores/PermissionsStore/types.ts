@@ -1,5 +1,3 @@
-import type { CacheMutation } from '@example/shared';
-
 import type { DenialReason } from './enums';
 
 export namespace Permissions {
@@ -20,6 +18,16 @@ export namespace Permissions {
   export type Permission = AllowedPermission | DenyPermission;
 }
 
-export interface IPermissionStore<TPreparingData = unknown> {
-  getPrepareDataMutation: () => CacheMutation<TPreparingData>;
+export interface Policy {
+  prepareData: () => {
+    async: () => Promise<void>;
+    sync: () => void;
+  };
+
+  preparingDataStatus: {
+    isSuccess: boolean;
+    isError: boolean;
+    isLoading: boolean;
+    error?: unknown;
+  };
 }

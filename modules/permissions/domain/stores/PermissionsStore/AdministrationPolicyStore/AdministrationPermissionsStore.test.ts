@@ -1,6 +1,6 @@
 import { describe, it } from 'vitest';
 
-import { AdministrationPermissionsStore } from './AdministrationPermissionsStore';
+import { AdministrationPolicyStore } from './AdministrationPolicyStore';
 
 describe('AdministrationPermissionsStore', () => {
   it('', () => {});

@@ -1,6 +1,6 @@
 import { describe, it } from 'vitest';
 
-import { BooksPermissionsStore } from './BooksPermissionsStore';
+import { BooksPolicyStore } from './BooksPolicyStore';
 
 describe('BooksPermissionsStore', () => {
   it('', () => {});

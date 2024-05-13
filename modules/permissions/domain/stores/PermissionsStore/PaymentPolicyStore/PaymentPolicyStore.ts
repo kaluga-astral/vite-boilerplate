@@ -4,24 +4,33 @@ import type { UserRepository } from '@example/data';
 import type { CacheService } from '@example/shared';
 
 import { createUserAgePermission } from '../utils';
-import type { IPermissionStore } from '../types';
+import type { Policy } from '../types';
+import type { PolicyStore } from '../PolicyStore';
+import { createPolicyStore } from '../PolicyStore';
 
-export class PaymentPolicyStore implements IPermissionStore {
+export class PaymentPolicyStore implements Policy {
+  private readonly policy: PolicyStore;
+
   constructor(
     private readonly userRepo: UserRepository,
-    private readonly cache: CacheService,
+    cache: CacheService,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
+
+    this.policy = createPolicyStore(cache, async () => {
+      await Promise.all([userRepo.getPersonInfoQuery().async()]);
+    });
   }
 
-  public getPrepareDataMutation = () =>
-    this.cache.createMutation(async () => {
-      await Promise.all([this.userRepo.getPersonInfoQuery().async()]);
-    });
+  public prepareData = () => this.policy.prepareData();
+
+  public get preparingDataStatus() {
+    return this.policy.preparingDataStatus;
+  }
 
   public checkPayment = (acceptableAge: number) =>
     createUserAgePermission(
-      this.userRepo.getPersonInfoQuery().isSuccess,
+      this.preparingDataStatus.isSuccess,
       acceptableAge,
       this.userRepo.getPersonInfoQuery().data?.birthday,
     );
