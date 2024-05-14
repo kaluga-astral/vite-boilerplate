@@ -9,8 +9,6 @@ export class UIStore {
   }
 
   public get isAllowBookCreation() {
-    console.log(this.permissions.administration.administrationActions);
-
     return this.permissions.administration.administrationActions.isAllowed;
   }
 }

@@ -6,10 +6,11 @@ import {
 import { useRoutes } from 'react-router-dom';
 
 import { authStore } from '@example/modules/auth';
-import { CriticalPermissionsGate } from '@example/modules/permissions';
+import { permissionsStore } from '@example/modules/permissions';
 import { MainLayout } from '@example/modules/layout';
 import {
   ConfigProvider,
+  ContentState,
   NotificationContainer,
   RouterServiceAdapter,
   ThemeProvider,
@@ -37,8 +38,10 @@ enableMobxStaticRendering(typeof window === 'undefined');
 
 export const App = observer(() => {
   const renderRoutes = useRoutes(routes);
+  const permissionsStatus = permissionsStore.preparingDataStatus;
 
   useEffect(() => {
+    permissionsStore.prepareData();
     authStore.addProtectedHttpClients([apiHttpClient]);
     authStore.signIn('token');
   }, []);
@@ -55,9 +58,20 @@ export const App = observer(() => {
       <RouterServiceAdapter />
       <ThemeProvider theme={theme}>
         <NotificationContainer />
-        <CriticalPermissionsGate>
+        <ContentState
+          isError={permissionsStatus.isError}
+          isLoading={permissionsStatus.isLoading}
+          errorState={
+            permissionsStatus.error
+              ? {
+                  errorList: [permissionsStatus.error],
+                  onRetry: permissionsStore.prepareData,
+                }
+              : undefined
+          }
+        >
           <MainLayout>{renderRoutes}</MainLayout>
-        </CriticalPermissionsGate>
+        </ContentState>
       </ThemeProvider>
     </ConfigProvider>
   );
