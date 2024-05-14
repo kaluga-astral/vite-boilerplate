@@ -1,3 +1,3 @@
 export * as v from '@astral/validations';
 
-export { notify } from '@astral/ui';
+export { notify, type Notify } from '@astral/ui';

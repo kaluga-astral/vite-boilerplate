@@ -19,11 +19,11 @@ export const AddToCartButton = observer(
 
     return (
       <Grid container spacing={2} direction="column" className={className}>
-        <IconButton onClick={addToCart}>-</IconButton>
+        <IconButton onClick={addToCart}>+</IconButton>
         <Typography component="output" color="info">
           {count}
         </Typography>
-        <IconButton onClick={removeFromCart}>+</IconButton>
+        <IconButton onClick={removeFromCart}>-</IconButton>
       </Grid>
     );
   },

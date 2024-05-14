@@ -2,7 +2,13 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
 import type { DataGridPaginationProps, DataGridSort } from '@example/shared';
-import { DataGrid, DataGridPagination } from '@example/shared';
+import {
+  ActionCell,
+  DataGrid,
+  DataGridPagination,
+  EyeFillMd,
+  IconButton,
+} from '@example/shared';
 
 import { AddToCartButton } from '../../external';
 
@@ -17,6 +23,7 @@ export const BookList = observer(() => {
       totalCount,
       setSort,
       setPaginationPage,
+      openReadingOnline,
       pagination,
       sort,
     },
@@ -36,31 +43,53 @@ export const BookList = observer(() => {
   };
 
   return (
-    <DataGrid<ListItem, AvailableSortField>
-      columns={[
-        { field: 'name', label: 'Название', sortable: true },
-        { field: 'price', label: 'Цена', sortable: true },
-        {
-          sortable: false,
-          align: 'center',
-          width: '10%',
-          renderCell: ({ store }) => {
-            return <AddToCartButton store={store} />;
+    <>
+      <DataGrid<ListItem, AvailableSortField>
+        columns={[
+          { field: 'name', label: 'Название', sortable: true },
+          { field: 'price', label: 'Цена', sortable: true },
+          {
+            sortable: false,
+            align: 'center',
+            width: '10%',
+            renderCell: ({ store }) => {
+              return <AddToCartButton store={store} />;
+            },
           },
-        },
-      ]}
-      rows={list}
-      keyId="id"
-      loading={isLoading}
-      sorting={sort && { sort: sort.sortOrder, fieldId: sort.sortField }}
-      onSort={handleSort}
-      Footer={
-        <DataGridPagination
-          onChange={handleChangePage}
-          page={pagination.page}
-          totalCount={totalCount}
-        />
-      }
-    />
+          {
+            sortable: false,
+            align: 'center',
+            renderCell: (row) => {
+              return (
+                <ActionCell
+                  row={row}
+                  actions={{
+                    main: [
+                      {
+                        icon: <EyeFillMd />,
+                        name: 'Прочитать',
+                        onClick: () => openReadingOnline(row.id),
+                      },
+                    ],
+                  }}
+                />
+              );
+            },
+          },
+        ]}
+        rows={list}
+        keyId="id"
+        loading={isLoading}
+        sorting={sort && { sort: sort.sortOrder, fieldId: sort.sortField }}
+        onSort={handleSort}
+        Footer={
+          <DataGridPagination
+            onChange={handleChangePage}
+            page={pagination.page}
+            totalCount={totalCount}
+          />
+        }
+      />
+    </>
   );
 });

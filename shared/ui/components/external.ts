@@ -23,6 +23,7 @@ export {
   ActionCell,
   type Actions as DataGridActions,
   Placeholder,
+  EyeFillMd,
   ConfigProvider,
   FormCheckbox,
   type FormCheckboxValue,

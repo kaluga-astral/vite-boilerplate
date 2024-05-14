@@ -6,7 +6,8 @@ import type {
   SortInputDTO,
 } from '@example/data';
 import { bookRepository as bookRepositoryInstance } from '@example/data';
-import { formatPriceToView } from '@example/shared';
+import type { Notify } from '@example/shared';
+import { formatPriceToView, notify } from '@example/shared';
 
 import type {
   PermissionsStore,
@@ -31,15 +32,12 @@ type SortData = Required<SortInputDTO<AvailableSortField>>;
 export class UIStore {
   public sort?: SortData;
 
-  public isShowPay = false;
-
-  public isShowExeed = false;
-
   public pagination: PaginationInputDTO = { count: 10, offset: 0, page: 0 };
 
   constructor(
     private readonly bookRepository: BookRepository,
     private readonly permissions: PermissionsStore,
+    private readonly notifyService: Notify,
   ) {
     makeAutoObservable(this);
   }
@@ -49,6 +47,10 @@ export class UIStore {
       ...this.sort,
       ...this.pagination,
     });
+  }
+
+  private get isReadingAllowed() {
+    return this.permissions.books.readingOnline.isAllowed;
   }
 
   public get totalCount() {
@@ -70,34 +72,30 @@ export class UIStore {
     return this.listQuery.isLoading;
   }
 
-  public get readingPermission() {
-    return {
-      isAllowed: this.permissions.book.readingOnline.isAllowed,
-      isNeedSubscription: this.permissions.book.readingOnline.reasons?.find(
-        ({ id }) => id === 'no-pay',
-      ),
-      isExeedReadingCount: this.permissions.book.readingOnline.reasons?.find(
-        ({ id }) => id === 'exeed-count',
-      ),
-    };
-  }
-
   public openReadingOnline = (bookId: string) => {
-    if (this.permissions.book.readingOnline.isAllowed) {
+    if (this.isReadingAllowed) {
       window.open(`/${bookId}`, '_blank');
 
       return;
     }
 
-    if (this.permissions.book.readingOnline.reasons?.includes('no-pay')) {
-      this.isShowPay = true;
+    if (this.permissions.books.readingOnline.reason === 2) {
+      this.notifyService.error('Нужна оплата');
 
       return;
     }
 
-    if (this.permissions.book.readingOnline.reasons?.includes('exeed')) {
-      this.isShowExeed = true;
+    if (this.permissions.books.readingOnline.reason === 3) {
+      this.notifyService.error(
+        'Достигнуто максимальное количество прочтений в этом месяце. Ждите следующий месяц',
+      );
+
+      return;
     }
+
+    this.notifyService.error(
+      'Чтение онлайн недоступно. Попробуйте сменить аккаунт',
+    );
   };
 
   public setSort = (sort: SortData) => {
@@ -110,4 +108,4 @@ export class UIStore {
 }
 
 export const createUIStore = () =>
-  new UIStore(bookRepositoryInstance, permissionsStore);
+  new UIStore(bookRepositoryInstance, permissionsStore, notify);
