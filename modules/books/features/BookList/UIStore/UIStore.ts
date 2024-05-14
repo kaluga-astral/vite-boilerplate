@@ -22,6 +22,7 @@ export type ListItem = {
   id: string;
   name: string;
   price: string;
+  acceptableAge: number;
   store: ProductCartManagerStore;
 };
 
@@ -96,6 +97,30 @@ export class UIStore {
     this.notifyService.error(
       'Чтение онлайн недоступно. Попробуйте сменить аккаунт',
     );
+  };
+
+  public checkBuyPermission = (
+    acceptableAge: number,
+  ): { isAllow: boolean; reason?: string } => {
+    const { isAllowed, reason } =
+      this.permissions.payment.checkPayment(acceptableAge);
+
+    if (isAllowed) {
+      return { isAllow: true };
+    }
+
+    if (reason === 3) {
+      return { isAllow: false, reason: `Вы не достигли ${acceptableAge} лет` };
+    }
+
+    if (reason === 4) {
+      return {
+        isAllow: false,
+        reason: 'Необходимо указать свой возраст в личном кабинете',
+      };
+    }
+
+    return { isAllow: false, reason: 'Покупка недоступна' };
   };
 
   public setSort = (sort: SortData) => {

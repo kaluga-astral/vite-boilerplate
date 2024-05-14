@@ -38,6 +38,7 @@ export namespace BookNetworkSourcesDTO {
     id: string;
     name: string;
     price: number;
+    acceptableAge: number;
   };
 
   export type BookListDTO = WithPaginationDTO<BookListItemDTO>;

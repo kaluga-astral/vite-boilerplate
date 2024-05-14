@@ -7,7 +7,7 @@ import {
   DataGrid,
   DataGridPagination,
   EyeFillMd,
-  IconButton,
+  Tooltip,
 } from '@example/shared';
 
 import { AddToCartButton } from '../../external';
@@ -24,6 +24,7 @@ export const BookList = observer(() => {
       setSort,
       setPaginationPage,
       openReadingOnline,
+      checkBuyPermission,
       pagination,
       sort,
     },
@@ -52,8 +53,18 @@ export const BookList = observer(() => {
             sortable: false,
             align: 'center',
             width: '10%',
-            renderCell: ({ store }) => {
-              return <AddToCartButton store={store} />;
+            renderCell: ({ store, acceptableAge }) => {
+              const { isAllow, reason } = checkBuyPermission(acceptableAge);
+
+              if (isAllow) {
+                return <AddToCartButton store={store} />;
+              }
+
+              return (
+                <Tooltip title={reason} withoutContainer={false}>
+                  <AddToCartButton isDisabled store={store} />
+                </Tooltip>
+              );
             },
           },
           {

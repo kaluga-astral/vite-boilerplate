@@ -31,6 +31,7 @@ export {
   type ContentStateProps,
   Autocomplete,
   FormAutocomplete,
+  Tooltip,
   type FormAutocompleteProps,
   Typography,
   FormProvider,
