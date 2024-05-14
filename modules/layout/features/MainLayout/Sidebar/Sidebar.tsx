@@ -7,7 +7,7 @@ import {
   DashboardLayout,
   type NavMenuProps,
   RouterLink,
-  useLocation,
+  useRouterLocation,
 } from '@example/shared';
 
 import { CartBadge } from '../../../external';
@@ -15,7 +15,7 @@ import { CartBadge } from '../../../external';
 import { createUIStore } from './UIStore';
 
 export const Sidebar = observer(() => {
-  const { pathname } = useLocation();
+  const { pathname } = useRouterLocation();
   const [{ isAllowBookCreation }] = useState(createUIStore);
 
   const menuItems = useMemo<NavMenuProps['items']>(() => {
@@ -37,16 +37,13 @@ export const Sidebar = observer(() => {
 
     if (isAllowBookCreation) {
       items.push([
-        APP_ROUTES.creatingBook.route,
+        APP_ROUTES.createBook.route,
         {
           icon: <AddOutlineMd />,
           text: 'Добавить книгу',
-          active: pathname?.includes(APP_ROUTES.creatingBook.route),
+          active: pathname?.includes(APP_ROUTES.createBook.route),
           component: ({ children, ...props }) => (
-            <RouterLink
-              {...props}
-              to={APP_ROUTES.creatingBook.getRedirectPath()}
-            >
+            <RouterLink {...props} to={APP_ROUTES.createBook.getRedirectPath()}>
               {children}
             </RouterLink>
           ),

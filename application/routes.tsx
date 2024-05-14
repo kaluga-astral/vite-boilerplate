@@ -24,7 +24,7 @@ export const routes: RouteObject[] = [
         element: <CartPage />,
       },
       {
-        path: APP_ROUTES.creatingBook.route,
+        path: APP_ROUTES.createBook.route,
         element: <CreateBookPage />,
       },
     ],

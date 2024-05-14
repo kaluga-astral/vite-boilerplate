@@ -11,7 +11,7 @@ export const APP_ROUTES = {
       return '/';
     },
   },
-  creatingBook: {
+  createBook: {
     route: '/admin/createBook',
     getRedirectPath() {
       return '/admin/createBook';
