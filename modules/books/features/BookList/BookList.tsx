@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from '@example/shared';
 
-import { AddToCartButton } from '../../external';
+import { AddToCartButton, PayAccountModal } from '../../external';
 
 import type { AvailableSortField, ListItem } from './UIStore';
 import { createUIStore } from './UIStore';
@@ -27,6 +27,8 @@ export const BookList = observer(() => {
       checkBuyPermission,
       pagination,
       sort,
+      isOpenAccountPayment,
+      closePaymentAccount,
     },
   ] = useState(createUIStore);
 
@@ -100,6 +102,10 @@ export const BookList = observer(() => {
             totalCount={totalCount}
           />
         }
+      />
+      <PayAccountModal
+        isOpen={isOpenAccountPayment}
+        onClose={closePaymentAccount}
       />
     </>
   );

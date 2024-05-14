@@ -35,6 +35,8 @@ export class UIStore {
 
   public pagination: PaginationInputDTO = { count: 10, offset: 0, page: 0 };
 
+  public isOpenAccountPayment = false;
+
   constructor(
     private readonly bookRepository: BookRepository,
     private readonly permissions: PermissionsStore,
@@ -61,9 +63,10 @@ export class UIStore {
   public get list(): ListItem[] {
     const data = this.listQuery.data?.data || [];
 
-    return data.map(({ id, name, price }) => ({
+    return data.map(({ id, name, price, acceptableAge }) => ({
       id,
       name,
+      acceptableAge,
       price: formatPriceToView(price),
       store: createProductCartManagerStore(id),
     }));
@@ -81,7 +84,7 @@ export class UIStore {
     }
 
     if (this.permissions.books.readingOnline.reason === 2) {
-      this.notifyService.error('Нужна оплата');
+      this.openPaymentAccount();
 
       return;
     }
@@ -129,6 +132,14 @@ export class UIStore {
 
   public setPaginationPage = (newPage: number) => {
     this.pagination.page = newPage;
+  };
+
+  public openPaymentAccount = () => {
+    this.isOpenAccountPayment = true;
+  };
+
+  public closePaymentAccount = () => {
+    this.isOpenAccountPayment = false;
   };
 }
 

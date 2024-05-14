@@ -4,6 +4,8 @@ export {
   ProductCartManagerStore,
 } from '@example/modules/cart';
 
+export { PayAccountModal } from '@example/modules/payment';
+
 export {
   PermissionsStore,
   permissionsStore,
