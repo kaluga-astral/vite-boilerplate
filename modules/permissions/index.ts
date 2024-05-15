@@ -4,4 +4,5 @@ export {
   NoAdminPlaceholder,
   PermissionGuard,
   AdminRouteGuard,
+  ReadingBookRouteGuard,
 } from './features';

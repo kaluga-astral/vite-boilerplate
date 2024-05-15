@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
 
-import { Typography } from '@example/shared';
+import { Placeholder } from '@example/shared';
 
-import type { DenialReason, Permission } from '../../domain';
+import type { Permission } from '../../domain';
+import { DenialReason } from '../../domain';
 
 type Props = {
   permission: Permission;
@@ -19,5 +20,9 @@ export const PermissionGuard = ({ permission, selector, children }: Props) => {
     return selector[permission.reason];
   }
 
-  return <Typography>Нет доступа</Typography>;
+  if (permission.reason === DenialReason.NoPayAccount) {
+    return <Placeholder title="Необходимо оплатить аккаунт" />;
+  }
+
+  return <Placeholder title="Нет доступа" />;
 };
