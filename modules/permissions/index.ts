@@ -1,4 +1,4 @@
-export { PermissionsStore, permissionsStore, DenialReason } from './domain';
+export { PermissionsStore, permissionsStore, DenialPermissionReason } from './domain';
 
 export {
   PermissionGuard,

@@ -10,7 +10,7 @@ import {
 } from '@example/shared';
 
 import { PermissionGuard } from '../../PermissionGuard';
-import { DenialReason } from '../../../domain';
+import { DenialPermissionReason } from '../../../domain';
 
 import { createUIStore } from './UIStore';
 
@@ -29,7 +29,7 @@ export const ReadingBookRouteGuard = observer(({ id, children }: Props) => {
       <PermissionGuard
         permission={permission}
         denialSwitch={{
-          [DenialReason.NotForYourAge]: (
+          [DenialPermissionReason.NotForYourAge]: (
             <PageLayout
               header={{
                 title: pageTitle,

@@ -1,34 +1,34 @@
-export enum DenialReason {
+export enum PermissionDenialReason {
   /**
    * При расчете доступа произошла ошибка
    * **/
-  InternalError,
+  InternalError = 'internal-error',
   /**
    * Не является администратором
    * **/
-  NoAdmin,
+  NoAdmin = 'no-admin',
   /**
    * Аккаунт не оплачен
    * **/
-  NoPayAccount,
+  NoPayAccount = 'no-pay-account',
   /**
    * Превышено доступное количество чтений
    * **/
-  ExceedReadingCount,
+  ExceedReadingCount = 'exceed-reading-count',
   /**
    * Превышено доступное количество книг на полке
    * **/
-  ExceedShelfCount,
+  ExceedShelfCount = 'exceed-shelf-count',
   /**
    * Недостаточно данных для формирования доступа
    * **/
-  MissingData,
+  MissingData = 'missing-data',
   /**
    * Недоступно для вашего возраста
    * **/
-  NotForYourAge,
+  NotForYourAge = 'not-for-your-age',
   /**
    * Пользователь не указал дату рождения
    * **/
-  MissingUserAge,
+  MissingUserAge = 'missing-user-age',
 }

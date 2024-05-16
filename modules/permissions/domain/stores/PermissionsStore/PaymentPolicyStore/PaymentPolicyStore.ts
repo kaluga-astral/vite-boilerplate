@@ -24,7 +24,7 @@ export class PaymentPolicyStore {
    * Возможность оплатить товар
    */
   public checkPayment = (acceptableAge: number) =>
-    this.policyManager.createPermission((allow, deny) => {
+    this.policyManager.processPermission((allow, deny) => {
       const agePermission = checkAcceptableAge(
         acceptableAge,
         this.userRepo.getPersonInfoQuery().data?.birthday,

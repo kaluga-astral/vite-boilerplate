@@ -3,14 +3,14 @@ import type { ReactNode } from 'react';
 import { Placeholder } from '@example/shared';
 
 import type { Permission } from '../../domain';
-import { DenialReason } from '../../domain';
+import { DenialPermissionReason } from '../../domain';
 
 type Props = {
   permission: Permission;
   /**
    * Позволяет отредендерить компонент для конкретной причины отказа в доступе
    */
-  denialSwitch: Partial<Record<DenialReason, ReactNode>>;
+  denialSwitch: Partial<Record<DenialPermissionReason, ReactNode>>;
   children: ReactNode;
 };
 
@@ -30,11 +30,11 @@ export const PermissionGuard = ({
     return denialSwitch[permission.reason];
   }
 
-  if (permission.reason === DenialReason.NoPayAccount) {
+  if (permission.reason === DenialPermissionReason.NoPayAccount) {
     return <Placeholder title="Необходимо оплатить аккаунт" />;
   }
 
-  if (permission.reason === DenialReason.MissingUserAge) {
+  if (permission.reason === DenialPermissionReason.MissingUserAge) {
     return <Placeholder title="Необходимо заполнить дату рождения в ЛК" />;
   }
 

@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
 
-import { DenialReason } from '../enums';
+import { PermissionDenialReason } from '../../../enums';
 import type { PolicyManagerStore } from '../PolicyManagerStore';
 
 export class AdministrationPolicyStore {
@@ -24,12 +24,12 @@ export class AdministrationPolicyStore {
    * Доступ к действиям администратора
    */
   public get administrationActions() {
-    return this.policyManager.createPermission((allow, deny) => {
+    return this.policyManager.processPermission((allow, deny) => {
       if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }
 
-      deny(DenialReason.NoAdmin);
+      deny(PermissionDenialReason.NoAdmin);
     });
   }
 }

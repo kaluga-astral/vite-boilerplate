@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import type { CacheMutation, CacheService } from '@example/shared';
 
 import type { Rule } from '../types';
-import { createPermission } from '../utils';
+import { processPermission } from '../utils';
 
 type PrepareData = () => Promise<void>;
 
@@ -42,8 +42,8 @@ export class PolicyManagerStore {
   /**
    * Создает доступ, учитывая статус успешности подготовки данных
    */
-  public createPermission = (rule: Rule) =>
-    createPermission(this.preparingDataMutation.isSuccess, rule);
+  public processPermission = (rule: Rule) =>
+    processPermission(this.preparingDataMutation.isSuccess, rule);
 
   public get preparingDataStatus() {
     return {

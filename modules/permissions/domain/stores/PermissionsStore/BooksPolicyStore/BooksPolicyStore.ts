@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import type { BillingRepository, UserRepository } from '@example/data';
 
 import type { PolicyManagerStore } from '../PolicyManagerStore';
-import { DenialReason } from '../enums';
+import { PermissionDenialReason } from '../../../enums';
 import { checkAcceptableAge } from '../rules';
 
 export class BooksPolicyStore {
@@ -30,7 +30,7 @@ export class BooksPolicyStore {
    * Возможность добавить на полку книгу
    */
   public get addingToShelf() {
-    return this.policyManager.createPermission((allow, deny) => {
+    return this.policyManager.processPermission((allow, deny) => {
       if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }
@@ -38,14 +38,14 @@ export class BooksPolicyStore {
       const billingInfo = this.billingRepo.getBillingInfoQuery()?.data;
 
       if (!billingInfo?.paid) {
-        return deny(DenialReason.NoPayAccount);
+        return deny(PermissionDenialReason.NoPayAccount);
       }
 
       if (
         billingInfo.info.shelf.allowedCount ===
         billingInfo.info.shelf.currentCount
       ) {
-        return deny(DenialReason.ExceedShelfCount);
+        return deny(PermissionDenialReason.ExceedShelfCount);
       }
 
       allow();
@@ -56,7 +56,7 @@ export class BooksPolicyStore {
    * Возможность прочитать книгу онлайн
    */
   public checkReadingOnline = (acceptableAge?: number) => {
-    return this.policyManager.createPermission((allow, deny) => {
+    return this.policyManager.processPermission((allow, deny) => {
       if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }
@@ -73,14 +73,14 @@ export class BooksPolicyStore {
       const billingInfo = this.billingRepo.getBillingInfoQuery().data;
 
       if (!billingInfo?.paid) {
-        return deny(DenialReason.NoPayAccount);
+        return deny(PermissionDenialReason.NoPayAccount);
       }
 
       if (
         billingInfo.info.onlineReading.allowedCount ===
         billingInfo.info.onlineReading.currentCount
       ) {
-        return deny(DenialReason.ExceedReadingCount);
+        return deny(PermissionDenialReason.ExceedReadingCount);
       }
 
       allow();

@@ -56,14 +56,14 @@ export const BookList = observer(() => {
             align: 'center',
             width: '10%',
             renderCell: ({ store, acceptableAge }) => {
-              const { isAllow, reason } = checkBuyPermission(acceptableAge);
+              const { isAllowed, message } = checkBuyPermission(acceptableAge);
 
-              if (isAllow) {
+              if (isAllowed) {
                 return <AddToCartButton store={store} />;
               }
 
               return (
-                <Tooltip title={reason} withoutContainer={false}>
+                <Tooltip title={message} withoutContainer={false}>
                   <AddToCartButton isDisabled store={store} />
                 </Tooltip>
               );

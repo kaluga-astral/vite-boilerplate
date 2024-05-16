@@ -79,13 +79,13 @@ export class UIStore {
       return;
     }
 
-    if (this.permissions.books.addingToShelf.reason === 2) {
+    if (this.permissions.books.addingToShelf.has('no-pay-account')) {
       this.openPaymentAccount();
 
       return;
     }
 
-    if (this.permissions.books.addingToShelf.reason === 3) {
+    if (this.permissions.books.addingToShelf.has('exceed-reading-count')) {
       this.notifyService.error(
         'Достигнуто максимальное количество книг на полке',
       );
@@ -100,26 +100,28 @@ export class UIStore {
 
   public checkBuyPermission = (
     acceptableAge: number,
-  ): { isAllow: boolean; reason?: string } => {
-    const { isAllowed, reason } =
-      this.permissions.payment.checkPayment(acceptableAge);
+  ): { isAllowed: boolean; message?: string } => {
+    const permission = this.permissions.payment.checkPayment(acceptableAge);
 
-    if (isAllowed) {
-      return { isAllow: true };
+    if (permission.isAllowed) {
+      return { isAllowed: true };
     }
 
-    if (reason === 3) {
-      return { isAllow: false, reason: `Вы не достигли ${acceptableAge} лет` };
-    }
-
-    if (reason === 4) {
+    if (permission.has('not-for-your-age')) {
       return {
-        isAllow: false,
-        reason: 'Необходимо указать свой возраст в личном кабинете',
+        isAllowed: false,
+        message: `Вы не достигли ${acceptableAge} лет`,
       };
     }
 
-    return { isAllow: false, reason: 'Покупка недоступна' };
+    if (permission.has('missing-user-age')) {
+      return {
+        isAllowed: false,
+        message: 'Необходимо указать свой возраст в личном кабинете',
+      };
+    }
+
+    return { isAllowed: false, message: 'Покупка недоступна' };
   };
 
   public setSort = (sort: SortData) => {
