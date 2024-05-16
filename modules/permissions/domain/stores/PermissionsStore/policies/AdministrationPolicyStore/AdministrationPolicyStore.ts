@@ -2,8 +2,8 @@ import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
 
-import { PermissionDenialReason } from '../../../enums';
-import type { PolicyManagerStore } from '../PolicyManagerStore';
+import { PermissionDenialReason } from '../../../../enums';
+import type { PolicyManagerStore } from '../../PolicyManagerStore';
 
 export class AdministrationPolicyStore {
   constructor(

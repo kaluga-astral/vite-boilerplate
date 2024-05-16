@@ -2,8 +2,8 @@ import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
 
-import { checkAcceptableAge } from '../rules';
-import type { PolicyManagerStore } from '../PolicyManagerStore';
+import { checkAcceptableAge } from '../../rules';
+import type { PolicyManagerStore } from '../../PolicyManagerStore';
 
 export class PaymentPolicyStore {
   constructor(

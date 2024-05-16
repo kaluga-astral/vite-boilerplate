@@ -2,9 +2,9 @@ import { makeAutoObservable } from 'mobx';
 
 import type { BillingRepository, UserRepository } from '@example/data';
 
-import type { PolicyManagerStore } from '../PolicyManagerStore';
-import { PermissionDenialReason } from '../../../enums';
-import { checkAcceptableAge } from '../rules';
+import type { PolicyManagerStore } from '../../PolicyManagerStore';
+import { PermissionDenialReason } from '../../../../enums';
+import { checkAcceptableAge } from '../../rules';
 
 export class BooksPolicyStore {
   constructor(
