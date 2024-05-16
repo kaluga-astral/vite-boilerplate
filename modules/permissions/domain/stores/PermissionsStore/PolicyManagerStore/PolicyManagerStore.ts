@@ -1,9 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { CacheMutation, CacheService } from '@example/shared';
-import { cacheService } from '@example/shared';
 
-import type { CheckPermission } from '../utils';
+import type { Rule } from '../types';
 import { createPermission } from '../utils';
 
 type PrepareData = () => Promise<void>;
@@ -43,8 +42,8 @@ export class PolicyManagerStore {
   /**
    * Создает доступ, учитывая статус успешности подготовки данных
    */
-  public createPermission = (checkPermission: CheckPermission) =>
-    createPermission(this.preparingDataMutation.isSuccess, checkPermission);
+  public createPermission = (rule: Rule) =>
+    createPermission(this.preparingDataMutation.isSuccess, rule);
 
   public get preparingDataStatus() {
     return {

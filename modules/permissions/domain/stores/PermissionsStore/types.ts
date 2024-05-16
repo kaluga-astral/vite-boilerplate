@@ -5,13 +5,22 @@ type AllowedPermission = {
   reason: null;
 };
 
-export type DenyPermission = {
+export type DenialPermission<
+  TDenialReason extends DenialReason = DenialReason,
+> = {
   isAllowed: false;
   /**
      Причина, из-за которой отказано в доступе. На основе причин система сможет реагировать в соответствии с потребностями бизнеса.
      Например, отобразить тултип с причиной отказа в доступе или просто не рендерить компонент
      **/
-  reason: DenialReason;
+  reason: TDenialReason;
 };
 
-export type Permission = AllowedPermission | DenyPermission;
+export type Permission<TDenialReason extends DenialReason = DenialReason> =
+  | AllowedPermission
+  | DenialPermission<TDenialReason>;
+
+export type Rule = (
+  allow: () => void,
+  deny: (denialReason: DenialReason) => void,
+) => void;

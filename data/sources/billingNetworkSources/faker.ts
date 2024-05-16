@@ -12,7 +12,12 @@ export const billingNetworkSourcesFaker = {
   ): BillingNetworkSourcesDTO.BillingInfo {
     return {
       paid: true,
-      info: { startDate: faker.date.recent().toISOString(), period: 'month' },
+      info: {
+        startDate: faker.date.recent().toISOString(),
+        period: 'month',
+        shelf: { allowedCount: 3, currentCount: 1 },
+        onlineReading: { allowedCount: 3, currentCount: 1 },
+      },
       ...data,
     };
   },

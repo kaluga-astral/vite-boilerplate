@@ -1,19 +1,7 @@
-import { DenialReason } from '../../enums';
 import type { Permission, Rule } from '../../types';
+import { DenialReason } from '../../enums';
 
-export const createPermission = (
-  isDataAvailable: boolean,
-  rule: Rule,
-): Permission => {
-  if (!isDataAvailable) {
-    console.warn('При вычислении доступа не было получено необходимых данных');
-
-    return {
-      isAllowed: false,
-      reason: DenialReason.MissingData,
-    };
-  }
-
+export const createRule = (rule: Rule): Permission => {
   let result: Permission | null = null;
 
   const allow = () => {

@@ -52,10 +52,6 @@ export class UIStore {
     });
   }
 
-  private get isAddingToShelfAllowed() {
-    return this.permissions.books.addingToShelf.isAllowed;
-  }
-
   public get totalCount() {
     return this.listQuery.data?.meta.totalCount || 0;
   }
@@ -77,7 +73,7 @@ export class UIStore {
   }
 
   public addToShelf = (bookId: string) => {
-    if (this.isAddingToShelfAllowed) {
+    if (this.permissions.books.addingToShelf.isAllowed) {
       this.notifyService.info(`Книга ${bookId} добавлена на полку`);
 
       return;

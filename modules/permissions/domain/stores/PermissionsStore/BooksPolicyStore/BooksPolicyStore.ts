@@ -4,7 +4,7 @@ import type { BillingRepository, UserRepository } from '@example/data';
 
 import type { PolicyManagerStore } from '../PolicyManagerStore';
 import { DenialReason } from '../enums';
-import { createUserAgePermission } from '../utils';
+import { checkAcceptableAge } from '../rules';
 
 export class BooksPolicyStore {
   constructor(
@@ -57,27 +57,20 @@ export class BooksPolicyStore {
    */
   public checkReadingOnline = (acceptableAge?: number) => {
     return this.policyManager.createPermission((allow, deny) => {
-      if (!acceptableAge) {
-        return deny(DenialReason.MissingData);
-      }
-
       if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }
 
-      const userQuery = this.userRepo.getPersonInfoQuery();
-
-      const agePermission = createUserAgePermission(
-        userQuery.isSuccess,
+      const agePermission = checkAcceptableAge(
         acceptableAge,
-        userQuery?.data?.birthday,
+        this.userRepo.getPersonInfoQuery().data?.birthday,
       );
 
       if (!agePermission.isAllowed) {
         return deny(agePermission.reason);
       }
 
-      const billingInfo = this.billingRepo.getBillingInfoQuery()?.data;
+      const billingInfo = this.billingRepo.getBillingInfoQuery().data;
 
       if (!billingInfo?.paid) {
         return deny(DenialReason.NoPayAccount);

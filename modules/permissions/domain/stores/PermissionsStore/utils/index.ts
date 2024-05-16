@@ -1,3 +1,3 @@
 export * from './createPermission';
 
-export * from './createUserAgePermission';
+export * from './createRule';
