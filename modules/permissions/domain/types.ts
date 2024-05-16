@@ -1,3 +1,3 @@
-import type { AllowedPermission, DenialPermission } from './classes';
+import type { AllowedPermission, DenialPermission } from './entities';
 
 export type Permission = AllowedPermission | DenialPermission;

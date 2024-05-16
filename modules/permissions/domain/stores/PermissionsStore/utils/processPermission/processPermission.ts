@@ -3,7 +3,7 @@ import type { Rule } from '../../types';
 import {
   createAllowedPermission,
   createDenialPermission,
-} from '../../../../classes';
+} from '../../../../entities';
 import type { Permission } from '../../../../types';
 
 export const processPermission = (

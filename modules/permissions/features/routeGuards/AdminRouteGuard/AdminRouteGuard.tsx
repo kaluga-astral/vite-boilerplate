@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { PageLayout, Placeholder } from '@example/shared';
 
-import { DenialPermissionReason, permissionsStore } from '../../../domain';
+import { PermissionDenialReason, permissionsStore } from '../../../domain';
 import { PermissionGuard } from '../../PermissionGuard';
 
 type Props = {
@@ -15,7 +15,7 @@ export const AdminRouteGuard = observer(({ children }: Props) => {
     <PermissionGuard
       permission={permissionsStore.administration.administrationActions}
       denialSwitch={{
-        [DenialPermissionReason.NoAdmin]: (
+        [PermissionDenialReason.NoAdmin]: (
           <PageLayout
             header={{ title: 'Панель администратора' }}
             content={{

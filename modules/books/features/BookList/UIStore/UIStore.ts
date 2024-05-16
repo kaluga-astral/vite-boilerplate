@@ -79,13 +79,15 @@ export class UIStore {
       return;
     }
 
-    if (this.permissions.books.addingToShelf.has('no-pay-account')) {
+    if (this.permissions.books.addingToShelf.hasReason('no-pay-account')) {
       this.openPaymentAccount();
 
       return;
     }
 
-    if (this.permissions.books.addingToShelf.has('exceed-reading-count')) {
+    if (
+      this.permissions.books.addingToShelf.hasReason('exceed-reading-count')
+    ) {
       this.notifyService.error(
         'Достигнуто максимальное количество книг на полке',
       );
@@ -107,14 +109,14 @@ export class UIStore {
       return { isAllowed: true };
     }
 
-    if (permission.has('not-for-your-age')) {
+    if (permission.hasReason('not-for-your-age')) {
       return {
         isAllowed: false,
         message: `Вы не достигли ${acceptableAge} лет`,
       };
     }
 
-    if (permission.has('missing-user-age')) {
+    if (permission.hasReason('missing-user-age')) {
       return {
         isAllowed: false,
         message: 'Необходимо указать свой возраст в личном кабинете',

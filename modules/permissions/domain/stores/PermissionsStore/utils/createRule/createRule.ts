@@ -3,7 +3,7 @@ import { PermissionDenialReason } from '../../../../enums';
 import {
   createAllowedPermission,
   createDenialPermission,
-} from '../../../../classes';
+} from '../../../../entities';
 import type { Permission } from '../../../../types';
 
 export const createRule = (rule: Rule): Permission => {
