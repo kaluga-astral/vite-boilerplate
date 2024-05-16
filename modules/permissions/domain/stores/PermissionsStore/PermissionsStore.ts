@@ -5,12 +5,16 @@ import type { BillingRepository, UserRepository } from '@example/data';
 import type { CacheService } from '@example/shared';
 import { cacheService } from '@example/shared';
 
-import type { AdministrationPolicyStore } from './AdministrationPolicyStore';
-import { createAdministrationPolicyStore } from './AdministrationPolicyStore';
-import type { BooksPolicyStore } from './BooksPolicyStore';
-import { createBooksPolicyStore } from './BooksPolicyStore';
-import type { PaymentPolicyStore } from './PaymentPolicyStore';
-import { createPaymentPolicyStore } from './PaymentPolicyStore';
+import {
+  createAdministrationPolicyStore,
+  createBooksPolicyStore,
+  createPaymentPolicyStore,
+} from './policies';
+import type {
+  AdministrationPolicyStore,
+  BooksPolicyStore,
+  PaymentPolicyStore,
+} from './policies';
 import type { PolicyManagerStore } from './PolicyManagerStore';
 import { createPolicyManagerStore } from './PolicyManagerStore';
 
