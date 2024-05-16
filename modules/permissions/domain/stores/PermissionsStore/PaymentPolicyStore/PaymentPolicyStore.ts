@@ -1,44 +1,37 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
-import type { CacheService } from '@example/shared';
 
 import { createUserAgePermission } from '../utils';
-import type { Policy } from '../types';
-import type { PolicyStore } from '../PolicyStore';
-import { createPolicyStore } from '../PolicyStore';
+import type { PolicyManagerStore } from '../PolicyManagerStore';
 
-export class PaymentPolicyStore implements Policy {
-  private readonly policy: PolicyStore;
-
+export class PaymentPolicyStore {
   constructor(
+    private readonly policyManager: PolicyManagerStore,
     private readonly userRepo: UserRepository,
-    cache: CacheService,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
-    this.policy = createPolicyStore(cache, async () => {
-      await Promise.all([userRepo.getPersonInfoQuery().async()]);
+    policyManager.registerPolicy({
+      name: 'payment',
+      prepareData: async () => {
+        await Promise.all([userRepo.getPersonInfoQuery().async()]);
+      },
     });
   }
 
-  public get prepareData() {
-    return this.policy.prepareData;
-  }
-
-  public get preparingDataStatus() {
-    return this.policy.preparingDataStatus;
-  }
-
+  /**
+   * Возможность оплатить товар
+   */
   public checkPayment = (acceptableAge: number) =>
     createUserAgePermission(
-      this.preparingDataStatus.isSuccess,
+      this.policyManager.preparingDataStatus.isSuccess,
       acceptableAge,
       this.userRepo.getPersonInfoQuery().data?.birthday,
     );
 }
 
 export const createPaymentPolicyStore = (
+  policyManager: PolicyManagerStore,
   userRepo: UserRepository,
-  cache: CacheService,
-) => new PaymentPolicyStore(userRepo, cache);
+) => new PaymentPolicyStore(policyManager, userRepo);

@@ -31,8 +31,8 @@ export const createPermission = (
 
   checkPermission(allow, deny);
 
-  if (!result) {
-    console.error('Результат проверки доступа не получен');
+  if (result === null) {
+    console.error(new Error('Результат проверки доступа не был получен'));
     result = { isAllowed: false, reason: DenialReason.InternalError };
   }
 

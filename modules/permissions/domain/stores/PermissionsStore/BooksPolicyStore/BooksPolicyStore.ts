@@ -1,61 +1,48 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { BillingRepository } from '@example/data';
-import type { CacheService } from '@example/shared';
 import type { UserRepository } from '@example/data';
 
-import type { PolicyStore } from '../PolicyStore';
-import { createPolicyStore } from '../PolicyStore';
-import type { Policy } from '../types';
+import type { PolicyManagerStore } from '../PolicyManagerStore';
 import { DenialReason } from '../enums';
 
-export class BooksPolicyStore implements Policy {
-  private readonly policy: PolicyStore;
-
+export class BooksPolicyStore {
   constructor(
-    cache: CacheService,
+    private readonly policyManager: PolicyManagerStore,
     private readonly billingRepo: BillingRepository,
     private readonly userRepo: UserRepository,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
-    this.policy = createPolicyStore(cache, async () => {
-      await Promise.all([
-        this.userRolesQuery.async(),
-        this.billingInfoQuery.async(),
-      ]);
+    this.policyManager.registerPolicy({
+      name: 'books',
+      prepareData: async () => {
+        await Promise.all([
+          this.userRepo.getRolesQuery().async(),
+          this.billingRepo.getBillingInfoQuery().async(),
+        ]);
+      },
     });
   }
 
-  private get billingInfoQuery() {
-    return this.billingRepo.getBillingInfoQuery();
-  }
-
-  private get userRolesQuery() {
-    return this.userRepo.getRolesQuery();
-  }
-
-  public get prepareData() {
-    return this.policy.prepareData;
-  }
-
-  public get preparingDataStatus() {
-    return this.policy.preparingDataStatus;
-  }
-
+  /**
+   * Возможность прочитать книгу онлайн
+   */
   public get readingOnline() {
-    return this.policy.createPermission((allow, deny) => {
-      if (this.userRolesQuery.data?.isAdmin) {
+    return this.policyManager.createPermission((allow, deny) => {
+      if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }
 
-      if (!this.billingInfoQuery.data?.paid) {
+      const billingInfo = this.billingRepo.getBillingInfoQuery()?.data;
+
+      if (!billingInfo?.paid) {
         return deny(DenialReason.NoPayAccount);
       }
 
       if (
-        this.billingInfoQuery.data.info.onlineReading.allowedCount ===
-        this.billingInfoQuery.data.info.onlineReading.currentCount
+        billingInfo.info.onlineReading.allowedCount ===
+        billingInfo.info.onlineReading.currentCount
       ) {
         return deny(DenialReason.ExceedReadingCount);
       }
@@ -66,7 +53,7 @@ export class BooksPolicyStore implements Policy {
 }
 
 export const createBooksPolicyStore = (
-  cacheService: CacheService,
+  policyManager: PolicyManagerStore,
   billingRepo: BillingRepository,
   userRepo: UserRepository,
-) => new BooksPolicyStore(cacheService, billingRepo, userRepo);
+) => new BooksPolicyStore(policyManager, billingRepo, userRepo);

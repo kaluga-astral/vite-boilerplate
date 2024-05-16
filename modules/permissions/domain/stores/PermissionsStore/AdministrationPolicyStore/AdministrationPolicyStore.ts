@@ -1,42 +1,31 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
-import type { CacheService } from '@example/shared';
 
-import type { Policy } from '../types';
 import { DenialReason } from '../enums';
-import type { PolicyStore } from '../PolicyStore';
-import { createPolicyStore } from '../PolicyStore';
+import type { PolicyManagerStore } from '../PolicyManagerStore';
 
-export class AdministrationPolicyStore implements Policy {
-  private readonly policy: PolicyStore;
-
+export class AdministrationPolicyStore {
   constructor(
-    cache: CacheService,
+    private readonly policyManager: PolicyManagerStore,
     private readonly userRepo: UserRepository,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
-    this.policy = createPolicyStore(cache, async (): Promise<void> => {
-      await Promise.all([this.userRolesQuery.async()]);
+    this.policyManager.registerPolicy({
+      name: 'administration',
+      prepareData: async (): Promise<void> => {
+        await Promise.all([this.userRepo.getRolesQuery().async()]);
+      },
     });
   }
 
-  private get userRolesQuery() {
-    return this.userRepo.getRolesQuery();
-  }
-
-  public get prepareData() {
-    return this.policy.prepareData;
-  }
-
-  public get preparingDataStatus() {
-    return this.policy.preparingDataStatus;
-  }
-
+  /**
+   * Доступ к действиям администратора
+   */
   public get administrationActions() {
-    return this.policy.createPermission((allow, deny) => {
-      if (this.userRolesQuery.data?.isAdmin) {
+    return this.policyManager.createPermission((allow, deny) => {
+      if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }
 
@@ -46,6 +35,6 @@ export class AdministrationPolicyStore implements Policy {
 }
 
 export const createAdministrationPolicyStore = (
-  cacheService: CacheService,
+  policyManager: PolicyManagerStore,
   userRepo: UserRepository,
-) => new AdministrationPolicyStore(cacheService, userRepo);
+) => new AdministrationPolicyStore(policyManager, userRepo);

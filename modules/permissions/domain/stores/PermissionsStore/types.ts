@@ -2,7 +2,6 @@ import type { DenialReason } from './enums';
 
 type AllowedPermission = {
   isAllowed: true;
-  reason?: DenialReason;
 };
 
 export type DenyPermission = {
@@ -15,17 +14,3 @@ export type DenyPermission = {
 };
 
 export type Permission = AllowedPermission | DenyPermission;
-
-export interface Policy {
-  prepareData: {
-    async: () => Promise<void>;
-    sync: () => void;
-  };
-
-  preparingDataStatus: {
-    isSuccess: boolean;
-    isError: boolean;
-    isLoading: boolean;
-    error?: unknown;
-  };
-}

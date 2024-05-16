@@ -12,7 +12,7 @@ export class UIStore {
   }
 
   private get bookQuery() {
-      return this.bookRepo.getBookByNameQuery()
+    return this.bookRepo.getBookByNameQuery();
   }
 }
 
