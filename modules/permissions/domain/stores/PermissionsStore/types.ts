@@ -2,6 +2,7 @@ import type { DenialReason } from './enums';
 
 type AllowedPermission = {
   isAllowed: true;
+  reason: null;
 };
 
 export type DenyPermission = {

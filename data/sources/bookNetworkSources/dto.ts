@@ -34,6 +34,25 @@ export namespace BookNetworkSourcesDTO {
     };
   };
 
+  export type BookByIDInputDTO = {
+    id: string;
+  };
+
+  export type BookByIdDTO = {
+    name: string;
+    genreID: string;
+    pageCount: number;
+    author: {
+      name: string;
+      surname: string;
+    };
+    coAuthor?: {
+      name: string;
+      surname: string;
+    };
+    acceptableAge: number;
+  };
+
   export type BookListItemDTO = {
     id: string;
     name: string;

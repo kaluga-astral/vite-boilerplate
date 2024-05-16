@@ -1,11 +1,10 @@
 import type { ReactNode } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { PageLayout } from '@example/shared';
+import { PageLayout, Placeholder } from '@example/shared';
 
 import { DenialReason, permissionsStore } from '../../../domain';
 import { PermissionGuard } from '../../PermissionGuard';
-import { NoAdminPlaceholder } from '../../NoAdminPlaceholder';
 
 type Props = {
   children: ReactNode;
@@ -15,11 +14,15 @@ export const AdminRouteGuard = observer(({ children }: Props) => {
   return (
     <PermissionGuard
       permission={permissionsStore.administration.administrationActions}
-      selector={{
+      denialSwitch={{
         [DenialReason.NoAdmin]: (
           <PageLayout
             header={{ title: 'Панель администратора' }}
-            content={{ children: <NoAdminPlaceholder /> }}
+            content={{
+              children: (
+                <Placeholder title="Доступно только для администраторов" />
+              ),
+            }}
           />
         ),
       }}

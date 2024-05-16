@@ -47,6 +47,22 @@ export class BookRepository {
       },
     );
 
+  public getBookByIdQuery = (id: string) =>
+    this.cache.createQuery<BookRepositoryDTO.BookByIdDTO, ApiDataError>(
+      ['book-by-id', id],
+      async () => {
+        const { data } = await this.bookNetworkSources.getBookById({
+          id,
+        });
+
+        const { genreID, ...book } = data;
+
+        const genre = await this.getGenreByIDQuery(genreID).async();
+
+        return { ...book, genre };
+      },
+    );
+
   public getBookListQuery = (params: BookRepositoryDTO.BookListInputDTO) =>
     this.cache.createQuery<BookRepositoryDTO.BookListDTO>(
       [this.bookListBaseKey, params],

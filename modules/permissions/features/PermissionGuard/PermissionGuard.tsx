@@ -7,21 +7,35 @@ import { DenialReason } from '../../domain';
 
 type Props = {
   permission: Permission;
-  selector: Partial<Record<DenialReason, ReactNode>>;
+  /**
+   * Позволяет отредендерить компонент для конкретной причины отказа в доступе
+   */
+  denialSwitch: Partial<Record<DenialReason, ReactNode>>;
   children: ReactNode;
 };
 
-export const PermissionGuard = ({ permission, selector, children }: Props) => {
+/**
+ * Закрывает доступ к children, обрабатывает дефолтные причины отказа
+ */
+export const PermissionGuard = ({
+  permission,
+  denialSwitch,
+  children,
+}: Props) => {
   if (permission.isAllowed) {
     return children;
   }
 
-  if (selector[permission.reason]) {
-    return selector[permission.reason];
+  if (denialSwitch[permission.reason]) {
+    return denialSwitch[permission.reason];
   }
 
   if (permission.reason === DenialReason.NoPayAccount) {
     return <Placeholder title="Необходимо оплатить аккаунт" />;
+  }
+
+  if (permission.reason === DenialReason.MissingUserAge) {
+    return <Placeholder title="Необходимо заполнить дату рождения в ЛК" />;
   }
 
   return <Placeholder title="Нет доступа" />;

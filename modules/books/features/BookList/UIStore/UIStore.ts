@@ -52,8 +52,8 @@ export class UIStore {
     });
   }
 
-  private get isReadingAllowed() {
-    return this.permissions.books.readingOnline.isAllowed;
+  private get isAddingToShelfAllowed() {
+    return this.permissions.books.addingToShelf.isAllowed;
   }
 
   public get totalCount() {
@@ -76,29 +76,29 @@ export class UIStore {
     return this.listQuery.isLoading;
   }
 
-  public openReadingOnline = (bookId: string) => {
-    if (this.isReadingAllowed) {
-      window.open(`/${bookId}`, '_blank');
+  public addToShelf = (bookId: string) => {
+    if (this.isAddingToShelfAllowed) {
+      this.notifyService.info(`Книга ${bookId} добавлена на полку`);
 
       return;
     }
 
-    if (this.permissions.books.readingOnline.reason === 2) {
+    if (this.permissions.books.addingToShelf.reason === 2) {
       this.openPaymentAccount();
 
       return;
     }
 
-    if (this.permissions.books.readingOnline.reason === 3) {
+    if (this.permissions.books.addingToShelf.reason === 3) {
       this.notifyService.error(
-        'Достигнуто максимальное количество прочтений в этом месяце. Ждите следующий месяц',
+        'Достигнуто максимальное количество книг на полке',
       );
 
       return;
     }
 
     this.notifyService.error(
-      'Чтение онлайн недоступно. Попробуйте сменить аккаунт',
+      'Добавить книгу на полку нельзя. Попробуйте перезагрузить страницу',
     );
   };
 

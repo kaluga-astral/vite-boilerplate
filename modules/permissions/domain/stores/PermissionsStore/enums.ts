@@ -16,6 +16,10 @@ export enum DenialReason {
    * **/
   ExceedReadingCount,
   /**
+   * Превышено доступное количество книг на полке
+   * **/
+  ExceedShelfCount,
+  /**
    * Недостаточно данных для формирования доступа
    * **/
   MissingData,

@@ -4,6 +4,10 @@ export namespace BillingNetworkSourcesDTO {
   export type SubscriptionInfo = {
     startDate: string;
     period: SubscriptionPeriod;
+    shelf: {
+      allowedCount: number;
+      currentCount: number;
+    };
     onlineReading: {
       allowedCount: number;
       currentCount: number;

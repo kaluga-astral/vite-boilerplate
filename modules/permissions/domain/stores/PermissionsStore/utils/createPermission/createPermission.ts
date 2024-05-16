@@ -22,7 +22,7 @@ export const createPermission = (
   let result: Permission | null = null;
 
   const allow = () => {
-    result = { isAllowed: true };
+    result = { isAllowed: true, reason: null };
   };
 
   const deny = (reason: DenialReason) => {

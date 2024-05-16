@@ -4,9 +4,9 @@ import { useState } from 'react';
 import type { DataGridPaginationProps, DataGridSort } from '@example/shared';
 import {
   ActionCell,
+  AddOutlineMd,
   DataGrid,
   DataGridPagination,
-  EyeFillMd,
   Tooltip,
 } from '@example/shared';
 
@@ -23,7 +23,7 @@ export const BookList = observer(() => {
       totalCount,
       setSort,
       setPaginationPage,
-      openReadingOnline,
+      addToShelf,
       checkBuyPermission,
       pagination,
       sort,
@@ -79,9 +79,9 @@ export const BookList = observer(() => {
                   actions={{
                     main: [
                       {
-                        icon: <EyeFillMd />,
-                        name: 'Прочитать',
-                        onClick: () => openReadingOnline(row.id),
+                        icon: <AddOutlineMd />,
+                        name: 'Добавить на полку',
+                        onClick: () => addToShelf(row.id),
                       },
                     ],
                   }}
