@@ -28,13 +28,11 @@ export class AdministrationPolicyStore {
    */
   public get administrationActions() {
     return this.policy.createPermission((allow, deny) => {
-      runInAction(() => {
-        if (this.userRepo.getRolesQuery().data?.isAdmin) {
-          return allow();
-        }
+      if (this.userRepo.getRolesQuery().data?.isAdmin) {
+        return allow();
+      }
 
-        deny(PermissionDenialReason.NoAdmin);
-      });
+      deny(PermissionDenialReason.NoAdmin);
     });
   }
 }
