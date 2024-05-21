@@ -2,12 +2,12 @@ import { makeAutoObservable } from 'mobx';
 
 import type { CacheMutation, CacheService } from '@example/shared';
 
-import type { Rule } from '../types';
-import { processPermission } from '../utils';
+import type { PermissionStrategy, Policy } from '../types';
+import { createPermission } from '../utils';
 
 type PrepareData = () => Promise<void>;
 
-type Policy = {
+type PolicyMeta = {
   name: string;
   prepareData: PrepareData;
 };
@@ -18,9 +18,9 @@ type Policy = {
 export class PolicyManagerStore {
   private preparingDataMutation: CacheMutation<void>;
 
-  private policies: Policy[] = [];
+  private policies: PolicyMeta[] = [];
 
-  constructor(private readonly cache: CacheService) {
+  constructor(cache: CacheService) {
     makeAutoObservable(this, {}, { autoBind: true });
 
     this.preparingDataMutation = cache.createMutation(async () => {
@@ -35,15 +35,18 @@ export class PolicyManagerStore {
   /**
    * Позволяет централизованно подготавливать данные для всех policy приложения
    */
-  public registerPolicy = (policy: Policy) => {
-    this.policies.push(policy);
-  };
+  public createPolicy = (policyMeta: PolicyMeta): Policy => {
+    this.policies.push(policyMeta);
 
-  /**
-   * Создает доступ, учитывая статус успешности подготовки данных
-   */
-  public processPermission = (rule: Rule) =>
-    processPermission(this.preparingDataMutation.isSuccess, rule);
+    return {
+      name: policyMeta.name,
+      /**
+       * Создает доступ, учитывая статус успешности подготовки данных
+       */
+      createPermission: (strategy: PermissionStrategy) =>
+        createPermission(this.preparingDataMutation.isSuccess, strategy),
+    };
+  };
 
   public get preparingDataStatus() {
     return {

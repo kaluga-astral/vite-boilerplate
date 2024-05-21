@@ -6,7 +6,7 @@ import {
 } from '../../../../entities';
 import type { Permission } from '../../../../types';
 
-export const processPermission = (
+export const createPermission = (
   isDataAvailable: boolean,
   rule: Rule,
 ): Permission => {

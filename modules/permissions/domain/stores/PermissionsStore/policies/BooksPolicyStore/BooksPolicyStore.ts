@@ -2,19 +2,22 @@ import { makeAutoObservable } from 'mobx';
 
 import type { BillingRepository, UserRepository } from '@example/data';
 
+import type { Policy } from '../../types';
 import type { PolicyManagerStore } from '../../PolicyManagerStore';
 import { PermissionDenialReason } from '../../../../enums';
 import { checkAcceptableAge } from '../../rules';
 
 export class BooksPolicyStore {
+  private readonly policy: Policy;
+
   constructor(
-    private readonly policyManager: PolicyManagerStore,
+    policyManager: PolicyManagerStore,
     private readonly billingRepo: BillingRepository,
     private readonly userRepo: UserRepository,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
-    this.policyManager.registerPolicy({
+    this.policy = policyManager.createPolicy({
       name: 'books',
       prepareData: async () => {
         await Promise.all([
@@ -30,7 +33,7 @@ export class BooksPolicyStore {
    * Возможность добавить на полку книгу
    */
   public get addingToShelf() {
-    return this.policyManager.processPermission((allow, deny) => {
+    return this.policy.createPermission((allow, deny) => {
       if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }
@@ -56,7 +59,7 @@ export class BooksPolicyStore {
    * Возможность прочитать книгу онлайн
    */
   public checkReadingOnline = (acceptableAge?: number) => {
-    return this.policyManager.processPermission((allow, deny) => {
+    return this.policy.createPermission((allow, deny) => {
       if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }

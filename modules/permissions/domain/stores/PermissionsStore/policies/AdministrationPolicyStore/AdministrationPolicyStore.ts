@@ -1,18 +1,21 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 import type { UserRepository } from '@example/data';
 
 import { PermissionDenialReason } from '../../../../enums';
+import type { Policy } from '../../types';
 import type { PolicyManagerStore } from '../../PolicyManagerStore';
 
 export class AdministrationPolicyStore {
+  private readonly policy: Policy;
+
   constructor(
     private readonly policyManager: PolicyManagerStore,
     private readonly userRepo: UserRepository,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
-    this.policyManager.registerPolicy({
+    this.policy = this.policyManager.createPolicy({
       name: 'administration',
       prepareData: async (): Promise<void> => {
         await Promise.all([this.userRepo.getRolesQuery().async()]);
@@ -24,12 +27,14 @@ export class AdministrationPolicyStore {
    * Доступ к действиям администратора
    */
   public get administrationActions() {
-    return this.policyManager.processPermission((allow, deny) => {
-      if (this.userRepo.getRolesQuery().data?.isAdmin) {
-        return allow();
-      }
+    return this.policy.createPermission((allow, deny) => {
+      runInAction(() => {
+        if (this.userRepo.getRolesQuery().data?.isAdmin) {
+          return allow();
+        }
 
-      deny(PermissionDenialReason.NoAdmin);
+        deny(PermissionDenialReason.NoAdmin);
+      });
     });
   }
 }

@@ -4,15 +4,18 @@ import type { UserRepository } from '@example/data';
 
 import { checkAcceptableAge } from '../../rules';
 import type { PolicyManagerStore } from '../../PolicyManagerStore';
+import type { Policy } from '../../types';
 
 export class PaymentPolicyStore {
+  private readonly policy: Policy;
+
   constructor(
-    private readonly policyManager: PolicyManagerStore,
+    policyManager: PolicyManagerStore,
     private readonly userRepo: UserRepository,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
-    policyManager.registerPolicy({
+    this.policy = policyManager.createPolicy({
       name: 'payment',
       prepareData: async () => {
         await Promise.all([userRepo.getPersonInfoQuery().async()]);
@@ -24,7 +27,7 @@ export class PaymentPolicyStore {
    * Возможность оплатить товар
    */
   public checkPayment = (acceptableAge: number) =>
-    this.policyManager.processPermission((allow, deny) => {
+    this.policy.createPermission((allow, deny) => {
       const agePermission = checkAcceptableAge(
         acceptableAge,
         this.userRepo.getPersonInfoQuery().data?.birthday,
