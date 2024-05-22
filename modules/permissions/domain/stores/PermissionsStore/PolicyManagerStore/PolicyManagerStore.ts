@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 import {
   createAllowedPermission,
@@ -74,23 +74,46 @@ export class PolicyManagerStore {
     return result;
   };
 
-  public prepareData = () => {
+  private startPreparingData = () => {
     this.preparingDataStatus.isIdle = false;
     this.preparingDataStatus.isLoading = true;
     this.preparingDataStatus.isSuccess = false;
     this.preparingDataStatus.isError = false;
     this.preparingDataStatus.error = undefined;
+  };
+
+  private successPreparingData = () => {
+    this.preparingDataStatus.isLoading = false;
+    this.preparingDataStatus.isSuccess = true;
+  };
+
+  private failPreparingData = (err: Error) => {
+    this.preparingDataStatus.isLoading = false;
+    this.preparingDataStatus.isError = true;
+    this.preparingDataStatus.error = err;
+  };
+
+  public prepareDataSync = () => {
+    this.startPreparingData();
 
     Promise.all(this.policies.map(({ prepareData }) => prepareData()))
       .then(() => {
-        this.preparingDataStatus.isLoading = false;
-        this.preparingDataStatus.isSuccess = true;
+        this.successPreparingData();
       })
       .catch((err) => {
-        this.preparingDataStatus.isLoading = false;
-        this.preparingDataStatus.isError = true;
-        this.preparingDataStatus.error = err;
+        this.failPreparingData(err);
       });
+  };
+
+  public prepareDataAsync = async () => {
+    this.startPreparingData();
+
+    try {
+      await Promise.all(this.policies.map(({ prepareData }) => prepareData()));
+      this.successPreparingData();
+    } catch (err) {
+      this.failPreparingData(err as Error);
+    }
   };
 
   /**

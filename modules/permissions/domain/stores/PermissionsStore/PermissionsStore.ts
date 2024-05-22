@@ -36,7 +36,7 @@ export class PermissionsStore {
     userRepo: UserRepository,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
-    this.policyManager = createPolicyManagerStore(cache);
+    this.policyManager = createPolicyManagerStore();
 
     this.administration = createAdministrationPolicyStore(
       this.policyManager,
@@ -55,7 +55,7 @@ export class PermissionsStore {
   /**
    * Подготавливает данные для формирования доступов
    */
-  public prepareData = () => this.policyManager.prepareData();
+  public prepareData = () => this.policyManager.prepareDataSync();
 
   public get preparingDataStatus() {
     return this.policyManager.preparingDataStatus;

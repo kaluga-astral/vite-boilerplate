@@ -4,9 +4,7 @@ import { when } from 'mobx';
 import { createCacheService } from '@example/shared';
 import { mock } from '@example/shared/_tests';
 import type { UserRepository } from '@example/data';
-import { userRepository } from '@example/data';
 
-import type { PolicyManagerStore } from '../../PolicyManagerStore';
 import { createPolicyManagerStore } from '../../PolicyManagerStore';
 
 import { AdministrationPolicyStore } from './AdministrationPolicyStore';
@@ -20,7 +18,7 @@ describe('AdministrationPolicyStore', () => {
           isAdmin: true as boolean,
         })),
     });
-    const policyManager = createPolicyManagerStore(cacheService);
+    const policyManager = createPolicyManagerStore();
 
     const sut = new AdministrationPolicyStore(
       policyManager,
