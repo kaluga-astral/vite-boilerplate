@@ -16,7 +16,10 @@ export const calcAcceptableAge = (
       return deny(PermissionDenialReason.MissingUserAge);
     }
 
-    if (getDateYearDiff(new Date(userBirthday), new Date()) < acceptableAge) {
+    if (
+      Math.abs(getDateYearDiff(new Date(userBirthday), new Date())) <
+      acceptableAge
+    ) {
       return deny(PermissionDenialReason.NotForYourAge);
     }
 

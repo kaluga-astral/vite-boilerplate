@@ -113,6 +113,8 @@ export class PolicyManagerStore {
       this.successPreparingData();
     } catch (err) {
       this.failPreparingData(err as Error);
+
+      throw err;
     }
   };
 

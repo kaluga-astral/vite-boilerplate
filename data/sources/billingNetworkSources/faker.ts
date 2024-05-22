@@ -1,4 +1,5 @@
 import { faker } from '@example/shared';
+import type { DeepPartial } from '@example/shared';
 
 import { makeFakeSourceRes } from '../utils';
 
@@ -12,12 +13,18 @@ export const billingNetworkSourcesFaker = {
   ): BillingNetworkSourcesDTO.BillingInfo {
     return {
       paid: true,
-      info: {
-        startDate: faker.date.recent().toISOString(),
-        period: 'month',
-        shelf: { allowedCount: 3, currentCount: 1 },
-        onlineReading: { allowedCount: 3, currentCount: 1 },
-      },
+      ...data,
+      info: this.makeBillingDetails(data?.info),
+    };
+  },
+  makeBillingDetails(
+    data?: Partial<BillingNetworkSourcesDTO.BillingInfo['info']>,
+  ): BillingNetworkSourcesDTO.BillingInfo['info'] {
+    return {
+      startDate: faker.date.recent().toISOString(),
+      period: 'month',
+      shelf: { allowedCount: 3, currentCount: 1 },
+      onlineReading: { allowedCount: 3, currentCount: 1 },
       ...data,
     };
   },

@@ -45,8 +45,8 @@ export class BooksPolicyStore {
       }
 
       if (
-        billingInfo.info.shelf.allowedCount ===
-        billingInfo.info.shelf.currentCount
+        billingInfo.info.shelf.currentCount >=
+        billingInfo.info.shelf.allowedCount
       ) {
         return deny(PermissionDenialReason.ExceedShelfCount);
       }
@@ -80,8 +80,8 @@ export class BooksPolicyStore {
       }
 
       if (
-        billingInfo.info.onlineReading.allowedCount ===
-        billingInfo.info.onlineReading.currentCount
+        billingInfo.info.onlineReading.currentCount >=
+        billingInfo.info.onlineReading.allowedCount
       ) {
         return deny(PermissionDenialReason.ExceedReadingCount);
       }
