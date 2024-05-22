@@ -29,7 +29,7 @@ export class UIStore {
   }
 
   public get permission() {
-    return this.permissions.books.checkReadingOnline(
+    return this.permissions.books.calcReadingOnline(
       this.bookQuery.data?.acceptableAge,
     );
   }

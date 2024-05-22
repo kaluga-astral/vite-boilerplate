@@ -1,11 +1,21 @@
 import { makeAutoObservable } from 'mobx';
 
-import type { CacheMutation, CacheService } from '@example/shared';
-
+import {
+  createAllowedPermission,
+  createDenialPermission,
+} from '../../../entities';
 import type { PermissionStrategy, Policy } from '../types';
-import { createPermission } from '../utils';
-
+import type { Permission } from '../../../types';
+import { PermissionDenialReason } from '../../../enums';
 type PrepareData = () => Promise<void>;
+
+type PreparingDataStatus = {
+  isIdle: boolean;
+  isSuccess: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  error?: Error;
+};
 
 type PolicyMeta = {
   name: string;
@@ -16,20 +26,71 @@ type PolicyMeta = {
  * Оркестрирует policy приложения: создает доступы, контролирует подготовку данных для формирования доступов
  */
 export class PolicyManagerStore {
-  private preparingDataMutation: CacheMutation<void>;
+  public preparingDataStatus: PreparingDataStatus = {
+    isIdle: true,
+    isSuccess: false,
+    isLoading: false,
+    isError: false,
+  };
 
   private policies: PolicyMeta[] = [];
 
-  constructor(cache: CacheService) {
+  constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-
-    this.preparingDataMutation = cache.createMutation(async () => {
-      await Promise.all(this.policies.map(({ prepareData }) => prepareData()));
-    });
   }
 
+  private calcPermission = (
+    policyName: string,
+    strategy: PermissionStrategy,
+  ) => {
+    if (!this.preparingDataStatus.isSuccess) {
+      console.warn(
+        `${policyName}: При вычислении доступа не было получено необходимых данных`,
+      );
+
+      return createDenialPermission(PermissionDenialReason.MissingData);
+    }
+
+    let result: Permission | null = null;
+
+    const allow = () => {
+      result = createAllowedPermission();
+    };
+
+    const deny = (reason: PermissionDenialReason) => {
+      result = createDenialPermission(reason);
+    };
+
+    strategy(allow, deny);
+
+    if (result === null) {
+      result = createDenialPermission(PermissionDenialReason.InternalError);
+    }
+
+    if (result?.reason === PermissionDenialReason.InternalError) {
+      console.error(new Error('Результат проверки доступа не был получен'));
+    }
+
+    return result;
+  };
+
   public prepareData = () => {
-    this.preparingDataMutation.sync();
+    this.preparingDataStatus.isIdle = false;
+    this.preparingDataStatus.isLoading = true;
+    this.preparingDataStatus.isSuccess = false;
+    this.preparingDataStatus.isError = false;
+    this.preparingDataStatus.error = undefined;
+
+    Promise.all(this.policies.map(({ prepareData }) => prepareData()))
+      .then(() => {
+        this.preparingDataStatus.isLoading = false;
+        this.preparingDataStatus.isSuccess = true;
+      })
+      .catch((err) => {
+        this.preparingDataStatus.isLoading = false;
+        this.preparingDataStatus.isError = true;
+        this.preparingDataStatus.error = err;
+      });
   };
 
   /**
@@ -44,19 +105,9 @@ export class PolicyManagerStore {
        * Создает доступ, учитывая статус успешности подготовки данных
        */
       createPermission: (strategy: PermissionStrategy) =>
-        createPermission(this.preparingDataMutation.isSuccess, strategy),
+        this.calcPermission(policyMeta.name, strategy),
     };
   };
-
-  public get preparingDataStatus() {
-    return {
-      isSuccess: this.preparingDataMutation.isSuccess,
-      isLoading: this.preparingDataMutation.isLoading,
-      isError: this.preparingDataMutation.isError,
-      error: this.preparingDataMutation.error,
-    };
-  }
 }
 
-export const createPolicyManagerStore = (cache: CacheService) =>
-  new PolicyManagerStore(cache);
+export const createPolicyManagerStore = () => new PolicyManagerStore();

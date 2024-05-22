@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
 
-import { checkAcceptableAge } from '../../rules';
+import { calcAcceptableAge } from '../../rules';
 import type { PolicyManagerStore } from '../../PolicyManagerStore';
 import type { Policy } from '../../types';
 
@@ -26,9 +26,9 @@ export class PaymentPolicyStore {
   /**
    * Возможность оплатить товар
    */
-  public checkPayment = (acceptableAge: number) =>
+  public calcPayment = (acceptableAge: number) =>
     this.policy.createPermission((allow, deny) => {
-      const agePermission = checkAcceptableAge(
+      const agePermission = calcAcceptableAge(
         acceptableAge,
         this.userRepo.getPersonInfoQuery().data?.birthday,
       );

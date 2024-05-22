@@ -103,7 +103,7 @@ export class UIStore {
   public checkBuyPermission = (
     acceptableAge: number,
   ): { isAllowed: boolean; message?: string } => {
-    const permission = this.permissions.payment.checkPayment(acceptableAge);
+    const permission = this.permissions.payment.calcPayment(acceptableAge);
 
     if (permission.isAllowed) {
       return { isAllowed: true };

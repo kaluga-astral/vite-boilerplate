@@ -12,7 +12,7 @@ import { createPolicyManagerStore } from '../../PolicyManagerStore';
 import { AdministrationPolicyStore } from './AdministrationPolicyStore';
 
 describe('AdministrationPolicyStore', () => {
-  it('test', async () => {
+  it('Действия администратора доступны только пользователю с ролью администратор', async () => {
     const cacheService = createCacheService();
     const userRepositoryMock = mock<UserRepository>({
       getRolesQuery: () =>

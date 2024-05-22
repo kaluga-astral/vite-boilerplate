@@ -20,7 +20,6 @@ export const createRule = (rule: Rule): Permission => {
   rule(allow, deny);
 
   if (result === null) {
-    console.error(new Error('Результат проверки доступа не был получен'));
     result = createDenialPermission(PermissionDenialReason.InternalError);
   }
 

@@ -3,7 +3,7 @@ import { getDateYearDiff } from '@example/shared';
 import { PermissionDenialReason } from '../../../../enums';
 import { createRule } from '../../utils';
 
-export const checkAcceptableAge = (
+export const calcAcceptableAge = (
   acceptableAge?: number,
   userBirthday?: string,
 ) =>

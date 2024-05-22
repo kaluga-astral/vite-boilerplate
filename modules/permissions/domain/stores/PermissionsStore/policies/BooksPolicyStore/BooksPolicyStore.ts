@@ -5,7 +5,7 @@ import type { BillingRepository, UserRepository } from '@example/data';
 import type { Policy } from '../../types';
 import type { PolicyManagerStore } from '../../PolicyManagerStore';
 import { PermissionDenialReason } from '../../../../enums';
-import { checkAcceptableAge } from '../../rules';
+import { calcAcceptableAge } from '../../rules';
 
 export class BooksPolicyStore {
   private readonly policy: Policy;
@@ -58,13 +58,13 @@ export class BooksPolicyStore {
   /**
    * Возможность прочитать книгу онлайн
    */
-  public checkReadingOnline = (acceptableAge?: number) => {
+  public calcReadingOnline = (acceptableAge?: number) => {
     return this.policy.createPermission((allow, deny) => {
       if (this.userRepo.getRolesQuery().data?.isAdmin) {
         return allow();
       }
 
-      const agePermission = checkAcceptableAge(
+      const agePermission = calcAcceptableAge(
         acceptableAge,
         this.userRepo.getPersonInfoQuery().data?.birthday,
       );
