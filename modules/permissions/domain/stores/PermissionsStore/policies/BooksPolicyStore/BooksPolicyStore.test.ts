@@ -63,6 +63,20 @@ describe('BooksPolicyStore', () => {
       expect(sut.addingToShelf.isAllowed).toBeTruthy();
     });
 
+    it('Доступно, если аккаунт оплачен и не превышено максимальное количество книг на полке', async () => {
+      const { sut } = await setup({
+        isAdmin: false,
+        billingInfo: {
+          paid: true,
+          info: billingRepositoryFaker.makeBillingDetails({
+            shelf: { currentCount: 1, allowedCount: 2 },
+          }),
+        },
+      });
+
+      expect(sut.addingToShelf.isAllowed).toBeTruthy();
+    });
+
     it('Недоступно, если аккаунт не оплачен', async () => {
       const { sut } = await setup({
         isAdmin: false,
@@ -127,6 +141,21 @@ describe('BooksPolicyStore', () => {
       const { sut } = await setup({ isAdmin: true });
 
       expect(sut.calcReadingOnline().isAllowed).toBeTruthy();
+    });
+
+    it('Доступно, если аккаунт оплачен, возраст соответствует необходимому, не превышено максимальное количество прочтений', async () => {
+      const { sut } = await setup({
+        isAdmin: false,
+        personInfo: { birthday: '11-11-2000' },
+        billingInfo: {
+          paid: true,
+          info: billingRepositoryFaker.makeBillingDetails({
+            onlineReading: { allowedCount: 2, currentCount: 1 },
+          }),
+        },
+      });
+
+      expect(sut.calcReadingOnline(18).isAllowed).toBeTruthy();
     });
 
     it('Недоступно пользователям не достигшим необходимого возраста', async () => {

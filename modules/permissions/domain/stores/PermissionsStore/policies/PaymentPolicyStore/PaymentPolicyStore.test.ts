@@ -43,8 +43,20 @@ describe('PaymentPolicyStore', () => {
       vi.useRealTimers();
     });
 
+    it('Доступно, если пользователь достиг требуемого возраста', async () => {
+      const { sut } = await setup({
+        personInfo: { birthday: '11-11-2000' },
+      });
+
+      const permission = sut.calcPayment(18);
+
+      expect(permission.isAllowed).toBeTruthy();
+    });
+
     it('Недоступно пользователям не достигшим необходимого возраста', async () => {
-      const { sut } = await setup({ personInfo: { birthday: '11-11-2012' } });
+      const { sut } = await setup({
+        personInfo: { birthday: '11-11-2012' },
+      });
 
       const permission = sut.calcPayment(18);
 

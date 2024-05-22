@@ -5,16 +5,16 @@ import { PermissionDenialReason } from '../../../../enums';
 import { calcAcceptableAge } from './calcAcceptableAge';
 
 describe('calcAcceptableAge', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('11-11-2024'));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   describe('Доступа нет', () => {
-    beforeEach(() => {
-      vi.useFakeTimers();
-      vi.setSystemTime(new Date('11-11-2024'));
-    });
-
-    afterEach(() => {
-      vi.useRealTimers();
-    });
-
     it('Если нет данных о доступном возрасте', () => {
       const permission = calcAcceptableAge();
 
@@ -35,5 +35,11 @@ describe('calcAcceptableAge', () => {
       expect(permission.isAllowed).toBeFalsy();
       expect(permission.reason).toBe(PermissionDenialReason.NotForYourAge);
     });
+  });
+
+  it('Доступ открыт, если есть доступный возраст + день рождения пользователя и возраст соответствует допустимому', () => {
+    const permission = calcAcceptableAge(18, '11-11-2000');
+
+    expect(permission.isAllowed).toBeTruthy();
   });
 });
