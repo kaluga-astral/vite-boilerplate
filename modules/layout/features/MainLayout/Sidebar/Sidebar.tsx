@@ -1,51 +1,64 @@
+import { observer } from 'mobx-react-lite';
+import { useMemo, useState } from 'react';
+
 import {
   APP_ROUTES,
   AddOutlineMd,
   DashboardLayout,
+  type NavMenuProps,
   RouterLink,
-  useLocation,
+  useRouterLocation,
 } from '@example/shared';
 
 import { CartBadge } from '../../../external';
 
-export const Sidebar = () => {
-  const { pathname } = useLocation();
+import { createUIStore } from './UIStore';
+
+export const Sidebar = observer(() => {
+  const { pathname } = useRouterLocation();
+  const [{ isAllowBookCreation }] = useState(createUIStore);
+
+  const menuItems = useMemo<NavMenuProps['items']>(() => {
+    const items: NavMenuProps['items'] = [
+      [
+        APP_ROUTES.cart.route,
+        {
+          icon: <CartBadge />,
+          text: 'Корзина',
+          active: pathname?.includes(APP_ROUTES.cart.route),
+          component: ({ children, ...props }) => (
+            <RouterLink {...props} to={APP_ROUTES.cart.getRedirectPath()}>
+              {children}
+            </RouterLink>
+          ),
+        },
+      ],
+    ];
+
+    if (isAllowBookCreation) {
+      items.push([
+        APP_ROUTES.createBook.route,
+        {
+          icon: <AddOutlineMd />,
+          text: 'Добавить книгу',
+          active: pathname?.includes(APP_ROUTES.createBook.route),
+          component: ({ children, ...props }) => (
+            <RouterLink {...props} to={APP_ROUTES.createBook.getRedirectPath()}>
+              {children}
+            </RouterLink>
+          ),
+        },
+      ]);
+    }
+
+    return items;
+  }, [isAllowBookCreation]);
 
   return (
     <DashboardLayout.Sidebar
       menu={{
-        items: [
-          [
-            APP_ROUTES.cart.route,
-            {
-              icon: <CartBadge />,
-              text: 'Корзина',
-              active: pathname?.includes(APP_ROUTES.cart.route),
-              component: ({ children, ...props }) => (
-                <RouterLink {...props} to={APP_ROUTES.cart.getRedirectPath()}>
-                  {children}
-                </RouterLink>
-              ),
-            },
-          ],
-          [
-            APP_ROUTES.creatingBook.route,
-            {
-              icon: <AddOutlineMd />,
-              text: 'Добавить книгу',
-              active: pathname?.includes(APP_ROUTES.creatingBook.route),
-              component: ({ children, ...props }) => (
-                <RouterLink
-                  {...props}
-                  to={APP_ROUTES.creatingBook.getRedirectPath()}
-                >
-                  {children}
-                </RouterLink>
-              ),
-            },
-          ],
-        ],
+        items: menuItems,
       }}
     />
   );
-};
+});

@@ -11,6 +11,13 @@ export namespace BookRepositoryDTO {
     genre: GenreDTO;
   };
 
+  export type BookByIdDTO = Omit<
+    BookNetworkSourcesDTO.BookByIdDTO,
+    'genreID'
+  > & {
+    genre: GenreDTO;
+  };
+
   export type BookListDTO = BookNetworkSourcesDTO.BookListDTO;
   export type BookListItemDTO = BookNetworkSourcesDTO.BookListItemDTO;
   export type BookListInputDTO = BookNetworkSourcesDTO.BookListInputDTO;

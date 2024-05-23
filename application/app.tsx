@@ -1,11 +1,16 @@
 import { useEffect } from 'react';
-import { enableStaticRendering as enableMobxStaticRendering } from 'mobx-react-lite';
+import {
+  enableStaticRendering as enableMobxStaticRendering,
+  observer,
+} from 'mobx-react-lite';
 import { useRoutes } from 'react-router-dom';
 
 import { authStore } from '@example/modules/auth';
+import { permissionsStore } from '@example/modules/permissions';
 import { MainLayout } from '@example/modules/layout';
 import {
   ConfigProvider,
+  ContentState,
   NotificationContainer,
   RouterServiceAdapter,
   ThemeProvider,
@@ -31,10 +36,12 @@ configService.init({
 initApiHttpClient();
 enableMobxStaticRendering(typeof window === 'undefined');
 
-export const App = () => {
+export const App = observer(() => {
   const renderRoutes = useRoutes(routes);
+  const permissionsStatus = permissionsStore.preparingDataStatus;
 
   useEffect(() => {
+    permissionsStore.prepareData();
     authStore.addProtectedHttpClients([apiHttpClient]);
     authStore.signIn('token');
   }, []);
@@ -51,10 +58,23 @@ export const App = () => {
       <RouterServiceAdapter />
       <ThemeProvider theme={theme}>
         <NotificationContainer />
-        <MainLayout>{renderRoutes}</MainLayout>
+        <ContentState
+          isError={permissionsStatus.isError}
+          isLoading={permissionsStatus.isLoading}
+          errorState={
+            permissionsStatus.error
+              ? {
+                  errorList: [permissionsStatus.error.message],
+                  onRetry: permissionsStore.prepareData,
+                }
+              : undefined
+          }
+        >
+          <MainLayout>{renderRoutes}</MainLayout>
+        </ContentState>
       </ThemeProvider>
     </ConfigProvider>
   );
-};
+});
 
 export default App;

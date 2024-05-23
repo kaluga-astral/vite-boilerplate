@@ -9,4 +9,7 @@ export {
 
 export { useToggle, useBoolean, useEffectOnce } from 'react-use';
 
-export { useLocation } from 'react-router-dom';
+export {
+  useLocation as useRouterLocation,
+  useParams as useRouterParams,
+} from 'react-router-dom';

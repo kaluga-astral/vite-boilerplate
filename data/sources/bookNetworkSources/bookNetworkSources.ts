@@ -22,6 +22,12 @@ export const bookNetworkSources = {
       HttpServiceResponse<BookNetworkSourcesDTO.BookByNameDTO>
     >('/book/byName', { params: data }),
 
+  getBookById: (data: BookNetworkSourcesDTO.BookByIDInputDTO) =>
+    apiHttpClient.get<
+      BookNetworkSourcesDTO.BookByIDInputDTO,
+      HttpServiceResponse<BookNetworkSourcesDTO.BookByIdDTO>
+    >('/book/byName', { params: data }),
+
   getBookList: (params: BookNetworkSourcesDTO.BookListInputDTO) =>
     apiHttpClient.get<
       BookNetworkSourcesDTO.BookListInputDTO,

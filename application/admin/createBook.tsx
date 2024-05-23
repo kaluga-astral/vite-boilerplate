@@ -1,7 +1,14 @@
-import { CreateBookScreen } from '@example/screens';
+import { observer } from 'mobx-react-lite';
 
-const CreateBookPage = () => {
-  return <CreateBookScreen />;
-};
+import { CreateBookScreen } from '@example/screens';
+import { AdminRouteGuard } from '@example/modules/permissions';
+
+const CreateBookPage = observer(() => {
+  return (
+    <AdminRouteGuard>
+      <CreateBookScreen />
+    </AdminRouteGuard>
+  );
+});
 
 export default CreateBookPage;

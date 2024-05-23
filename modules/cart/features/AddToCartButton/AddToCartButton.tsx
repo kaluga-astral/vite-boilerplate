@@ -6,24 +6,29 @@ import type { ProductCartManagerStore } from '../../domain';
 
 export type AddToCartButtonProps = {
   store: ProductCartManagerStore;
+  isDisabled?: boolean;
   className?: string;
 };
 
 export const AddToCartButton = observer(
-  ({ className, store }: AddToCartButtonProps) => {
+  ({ className, store, isDisabled }: AddToCartButtonProps) => {
     const { hasAddedToCart, addToCart, count, removeFromCart } = store;
 
     if (!hasAddedToCart) {
-      return <Button onClick={addToCart}>Купить</Button>;
+      return (
+        <Button disabled={isDisabled} onClick={addToCart}>
+          Купить
+        </Button>
+      );
     }
 
     return (
       <Grid container spacing={2} direction="column" className={className}>
-        <IconButton onClick={addToCart}>-</IconButton>
+        <IconButton onClick={addToCart}>+</IconButton>
         <Typography component="output" color="info">
           {count}
         </Typography>
-        <IconButton onClick={removeFromCart}>+</IconButton>
+        <IconButton onClick={removeFromCart}>-</IconButton>
       </Grid>
     );
   },

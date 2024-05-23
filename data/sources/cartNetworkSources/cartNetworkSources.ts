@@ -20,13 +20,13 @@ export const cartNetworkSources = {
     apiHttpClient.get<
       void,
       HttpServiceResponse<CartNetworkSourcesDTO.GoodsCountDTO>
-    >('/cart/goodsCount'),
+    >('/cart/booksCount'),
 
   getGoods: () =>
     apiHttpClient.get<
       void,
       HttpServiceResponse<CartNetworkSourcesDTO.CartGoodsDTO>
-    >('/cart/goods'),
+    >('/cart/books'),
 };
 
 export type CartNetworkSources = typeof cartNetworkSources;

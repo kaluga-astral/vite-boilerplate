@@ -8,5 +8,10 @@ export namespace UserNetworkSourcesDTO {
     name: string;
     surname: string;
     displayName: string;
+    birthday?: string;
   };
+
+  export type Role = 'admin' | 'user';
+
+  export type CurrentRoles = Role[];
 }

@@ -7,3 +7,5 @@ export * from './BookRepository';
 export * from './CartRepository';
 
 export * from './PaymentRepository';
+
+export * from './BillingRepository';

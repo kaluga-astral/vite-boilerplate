@@ -11,7 +11,13 @@ export const APP_ROUTES = {
       return '/';
     },
   },
-  creatingBook: {
+  readingBook: {
+    route: '/book/:id/read',
+    getRedirectPath(id: string) {
+      return `/book/${id}/read`;
+    },
+  },
+  createBook: {
     route: '/admin/createBook',
     getRedirectPath() {
       return '/admin/createBook';

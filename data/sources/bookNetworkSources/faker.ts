@@ -24,6 +24,24 @@ export const bookNetworkSourcesFaker = {
     ...data,
   }),
 
+  makeBookById: (
+    data?: Partial<BookNetworkSourcesDTO.BookByIdDTO>,
+  ): BookNetworkSourcesDTO.BookByIdDTO => ({
+    name: faker.lorem.word(6),
+    genreID: faker.string.uuid(),
+    pageCount: 3,
+    author: {
+      name: faker.person.firstName(),
+      surname: faker.person.lastName(),
+    },
+    coAuthor: {
+      name: faker.person.firstName(),
+      surname: faker.person.lastName(),
+    },
+    acceptableAge: faker.number.int(100),
+    ...data,
+  }),
+
   makeBookList: (
     length: number = 10,
     item?: Partial<BookNetworkSourcesDTO.BookListItemDTO>,
@@ -32,6 +50,7 @@ export const bookNetworkSourcesFaker = {
       name: faker.commerce.productName(),
       id: faker.string.uuid(),
       price: faker.number.int(100000),
+      acceptableAge: faker.number.int(100),
       ...item,
     })),
     meta: { totalCount: 100 },
@@ -51,4 +70,6 @@ export const fakeBookNetworkSources: BookNetworkSources = {
   ...bookNetworkSources,
   getBookList: async ({ count }) =>
     makeFakeSourceRes(bookNetworkSourcesFaker.makeBookList(count)),
+  getBookById: async () =>
+    makeFakeSourceRes(bookNetworkSourcesFaker.makeBookById()),
 };
