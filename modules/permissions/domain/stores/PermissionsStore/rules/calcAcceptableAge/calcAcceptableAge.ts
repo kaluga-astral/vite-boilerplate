@@ -1,13 +1,12 @@
-import { getDateYearDiff } from '@example/shared';
+import { createPermissionRule, getDateYearDiff } from '@example/shared';
 
 import { PermissionDenialReason } from '../../../../enums';
-import { createRule } from '../../utils';
 
 export const calcAcceptableAge = (
   acceptableAge?: number,
   userBirthday?: string,
 ) =>
-  createRule((allow, deny) => {
+  createPermissionRule((allow, deny) => {
     if (!acceptableAge) {
       return deny(PermissionDenialReason.MissingData);
     }

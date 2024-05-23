@@ -2,8 +2,8 @@ import { makeAutoObservable } from 'mobx';
 
 import { billingRepository, userRepository } from '@example/data';
 import type { BillingRepository, UserRepository } from '@example/data';
-import type { CacheService } from '@example/shared';
-import { cacheService } from '@example/shared';
+import type { PermissionsPolicyManagerStore } from '@example/shared';
+import { createPermissionsPolicyManagerStore } from '@example/shared';
 
 import {
   createAdministrationPolicyStore,
@@ -15,14 +15,12 @@ import type {
   BooksPolicyStore,
   PaymentPolicyStore,
 } from './policies';
-import type { PolicyManagerStore } from './PolicyManagerStore';
-import { createPolicyManagerStore } from './PolicyManagerStore';
 
 /**
  * Содержит все доступы приложения
  */
 export class PermissionsStore {
-  private readonly policyManager: PolicyManagerStore;
+  private readonly policyManager: PermissionsPolicyManagerStore;
 
   public readonly administration: AdministrationPolicyStore;
 
@@ -30,13 +28,9 @@ export class PermissionsStore {
 
   public readonly payment: PaymentPolicyStore;
 
-  constructor(
-    cache: CacheService,
-    billingRepo: BillingRepository,
-    userRepo: UserRepository,
-  ) {
+  constructor(billingRepo: BillingRepository, userRepo: UserRepository) {
     makeAutoObservable(this, {}, { autoBind: true });
-    this.policyManager = createPolicyManagerStore();
+    this.policyManager = createPermissionsPolicyManagerStore();
 
     this.administration = createAdministrationPolicyStore(
       this.policyManager,
@@ -63,7 +57,6 @@ export class PermissionsStore {
 }
 
 export const permissionsStore = new PermissionsStore(
-  cacheService,
   billingRepository,
   userRepository,
 );

@@ -19,6 +19,7 @@
     "@astral/ui": "^3.117.0",
     "@astral/validations": "^4.10.1",
     "@astral/validations-react-hook-form-resolver": "^4.10.1",
+    "@astral/permissions": "^1.2.0",
     "@faker-js/faker": "^8.2.0",
     "@sentry/browser": "7.93.0",
     "@types/lodash-es": "^4.17.10",

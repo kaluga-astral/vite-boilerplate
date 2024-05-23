@@ -1,16 +1,18 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
+import type {
+  PermissionsPolicy,
+  PermissionsPolicyManagerStore,
+} from '@example/shared';
 
 import { PermissionDenialReason } from '../../../../enums';
-import type { Policy } from '../../types';
-import type { PolicyManagerStore } from '../../PolicyManagerStore';
 
 export class AdministrationPolicyStore {
-  private readonly policy: Policy;
+  private readonly policy: PermissionsPolicy;
 
   constructor(
-    private readonly policyManager: PolicyManagerStore,
+    private readonly policyManager: PermissionsPolicyManagerStore,
     private readonly userRepo: UserRepository,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -38,6 +40,6 @@ export class AdministrationPolicyStore {
 }
 
 export const createAdministrationPolicyStore = (
-  policyManager: PolicyManagerStore,
+  policyManager: PermissionsPolicyManagerStore,
   userRepo: UserRepository,
 ) => new AdministrationPolicyStore(policyManager, userRepo);

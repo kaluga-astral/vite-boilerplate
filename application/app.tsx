@@ -64,7 +64,7 @@ export const App = observer(() => {
           errorState={
             permissionsStatus.error
               ? {
-                  errorList: [permissionsStatus.error],
+                  errorList: [permissionsStatus.error.message],
                   onRetry: permissionsStore.prepareData,
                 }
               : undefined

@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { createCacheService } from '@example/shared';
+import {
+  createCacheService,
+  createPermissionsPolicyManagerStore,
+} from '@example/shared';
 import { mock } from '@example/shared/_tests';
 import type { UserRepository } from '@example/data';
 
-import { createPolicyManagerStore } from '../../PolicyManagerStore';
 import { PermissionDenialReason } from '../../../../enums';
 
 import { AdministrationPolicyStore } from './AdministrationPolicyStore';
@@ -19,7 +21,7 @@ describe('AdministrationPolicyStore', () => {
             isAdmin,
           })),
       });
-      const policyManager = createPolicyManagerStore();
+      const policyManager = createPermissionsPolicyManagerStore();
 
       const sut = new AdministrationPolicyStore(
         policyManager,

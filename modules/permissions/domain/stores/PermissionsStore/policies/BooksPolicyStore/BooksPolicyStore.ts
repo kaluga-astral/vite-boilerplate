@@ -1,17 +1,19 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { BillingRepository, UserRepository } from '@example/data';
+import type {
+  PermissionsPolicy,
+  PermissionsPolicyManagerStore,
+} from '@example/shared';
 
-import type { Policy } from '../../types';
-import type { PolicyManagerStore } from '../../PolicyManagerStore';
 import { PermissionDenialReason } from '../../../../enums';
 import { calcAcceptableAge } from '../../rules';
 
 export class BooksPolicyStore {
-  private readonly policy: Policy;
+  private readonly policy: PermissionsPolicy;
 
   constructor(
-    policyManager: PolicyManagerStore,
+    policyManager: PermissionsPolicyManagerStore,
     private readonly billingRepo: BillingRepository,
     private readonly userRepo: UserRepository,
   ) {
@@ -92,7 +94,7 @@ export class BooksPolicyStore {
 }
 
 export const createBooksPolicyStore = (
-  policyManager: PolicyManagerStore,
+  policyManager: PermissionsPolicyManagerStore,
   billingRepo: BillingRepository,
   userRepo: UserRepository,
 ) => new BooksPolicyStore(policyManager, billingRepo, userRepo);

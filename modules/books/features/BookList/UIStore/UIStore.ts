@@ -14,6 +14,7 @@ import type {
   ProductCartManagerStore,
 } from '../../../external';
 import {
+  PermissionDenialReason,
   createProductCartManagerStore,
   permissionsStore,
 } from '../../../external';
@@ -79,14 +80,20 @@ export class UIStore {
       return;
     }
 
-    if (this.permissions.books.addingToShelf.hasReason('no-pay-account')) {
+    if (
+      this.permissions.books.addingToShelf.hasReason(
+        PermissionDenialReason.NoPayAccount,
+      )
+    ) {
       this.openPaymentAccount();
 
       return;
     }
 
     if (
-      this.permissions.books.addingToShelf.hasReason('exceed-reading-count')
+      this.permissions.books.addingToShelf.hasReason(
+        PermissionDenialReason.ExceedReadingCount,
+      )
     ) {
       this.notifyService.error(
         'Достигнуто максимальное количество книг на полке',
@@ -109,14 +116,14 @@ export class UIStore {
       return { isAllowed: true };
     }
 
-    if (permission.hasReason('not-for-your-age')) {
+    if (permission.hasReason(PermissionDenialReason.NotForYourAge)) {
       return {
         isAllowed: false,
         message: `Вы не достигли ${acceptableAge} лет`,
       };
     }
 
-    if (permission.hasReason('missing-user-age')) {
+    if (permission.hasReason(PermissionDenialReason.MissingUserAge)) {
       return {
         isAllowed: false,
         message: 'Необходимо указать свой возраст в личном кабинете',

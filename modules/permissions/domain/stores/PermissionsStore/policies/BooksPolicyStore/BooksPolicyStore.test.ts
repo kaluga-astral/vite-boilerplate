@@ -1,6 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createCacheService } from '@example/shared';
+import {
+  createCacheService,
+  createPermissionsPolicyManagerStore,
+} from '@example/shared';
 import { mock } from '@example/shared/_tests';
 import { billingRepositoryFaker, userRepositoryFaker } from '@example/data';
 import type {
@@ -10,7 +13,6 @@ import type {
   UserRepositoryDTO,
 } from '@example/data';
 
-import { createPolicyManagerStore } from '../../PolicyManagerStore';
 import { PermissionDenialReason } from '../../../../enums';
 
 import { BooksPolicyStore } from './BooksPolicyStore';
@@ -25,7 +27,7 @@ describe('BooksPolicyStore', () => {
     personInfo?: Partial<UserRepositoryDTO.UserPersonDTO>;
     billingInfo?: Partial<BillingRepositoryDTO.BillingInfo>;
   }) => {
-    const policyManager = createPolicyManagerStore();
+    const policyManager = createPermissionsPolicyManagerStore();
     const cacheService = createCacheService();
 
     const userRepoMock = mock<UserRepository>({
@@ -179,7 +181,6 @@ describe('BooksPolicyStore', () => {
 
       const permission = sut.calcReadingOnline(18);
 
-      console.log(permission);
       expect(permission.isAllowed).toBeFalsy();
       expect(permission.reason).toBe(PermissionDenialReason.NoPayAccount);
     });

@@ -2,11 +2,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { UserRepository, UserRepositoryDTO } from '@example/data';
 import { userRepositoryFaker } from '@example/data';
-import { createCacheService } from '@example/shared';
+import {
+  createCacheService,
+  createPermissionsPolicyManagerStore,
+} from '@example/shared';
 import { mock } from '@example/shared/_tests';
 
 import { PermissionDenialReason } from '../../../../enums';
-import { createPolicyManagerStore } from '../../PolicyManagerStore';
 
 import { PaymentPolicyStore } from './PaymentPolicyStore';
 
@@ -16,7 +18,7 @@ describe('PaymentPolicyStore', () => {
   }: {
     personInfo?: Partial<UserRepositoryDTO.UserPersonDTO>;
   }) => {
-    const policyManager = createPolicyManagerStore();
+    const policyManager = createPermissionsPolicyManagerStore();
     const cacheService = createCacheService();
 
     const userRepoMock = mock<UserRepository>({

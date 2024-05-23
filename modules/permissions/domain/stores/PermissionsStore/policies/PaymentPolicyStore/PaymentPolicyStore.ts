@@ -1,16 +1,18 @@
 import { makeAutoObservable } from 'mobx';
 
 import type { UserRepository } from '@example/data';
+import type {
+  PermissionsPolicy,
+  PermissionsPolicyManagerStore,
+} from '@example/shared';
 
 import { calcAcceptableAge } from '../../rules';
-import type { PolicyManagerStore } from '../../PolicyManagerStore';
-import type { Policy } from '../../types';
 
 export class PaymentPolicyStore {
-  private readonly policy: Policy;
+  private readonly policy: PermissionsPolicy;
 
   constructor(
-    policyManager: PolicyManagerStore,
+    policyManager: PermissionsPolicyManagerStore,
     private readonly userRepo: UserRepository,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -42,6 +44,6 @@ export class PaymentPolicyStore {
 }
 
 export const createPaymentPolicyStore = (
-  policyManager: PolicyManagerStore,
+  policyManager: PermissionsPolicyManagerStore,
   userRepo: UserRepository,
 ) => new PaymentPolicyStore(policyManager, userRepo);

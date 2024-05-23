@@ -5,4 +5,4 @@ export { default as userEvents } from '@testing-library/user-event';
 export * as rtl from '@testing-library/react';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-export { mock } from 'vitest-mock-extended';
+export { mock, mockDeep } from 'vitest-mock-extended';

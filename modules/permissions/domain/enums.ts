@@ -1,8 +1,14 @@
+import { PermissionsSystemDenialReason } from '@example/shared';
+
 export enum PermissionDenialReason {
   /**
    * При расчете доступа произошла ошибка
    * **/
-  InternalError = 'internal-error',
+  InternalError = PermissionsSystemDenialReason.InternalError,
+  /**
+   * Недостаточно данных для формирования доступа
+   * **/
+  MissingData = PermissionsSystemDenialReason.MissingData,
   /**
    * Не является администратором
    * **/
@@ -19,10 +25,6 @@ export enum PermissionDenialReason {
    * Превышено доступное количество книг на полке
    * **/
   ExceedShelfCount = 'exceed-shelf-count',
-  /**
-   * Недостаточно данных для формирования доступа
-   * **/
-  MissingData = 'missing-data',
   /**
    * Недоступно для вашего возраста
    * **/
