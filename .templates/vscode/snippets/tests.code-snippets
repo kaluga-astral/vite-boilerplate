@@ -7,12 +7,16 @@
   "Describe Test Snippet": {
     "prefix": "describeTest",
     "body": [
-      "describe('$1', () => {",
-      "  it('', () => {",
-      "    expect().toEqual();",
-      "  });",
-      "});"
-    ],
-    "description": "Шорткат для describe"
+          "import { describe, it } from '@example/shared/_tests';",
+          "",
+          "import { ${1:file} } from './${1:file}';",
+          "",
+          "describe('${1:file}', () => {",
+          "    it('', () => {",
+          "        expect().toEqual();",
+          "    });",
+          "});"
+        ],
+        "description": "Generate test template"
   }
 }

@@ -23,6 +23,7 @@ File Templates, File Templates (schemes)).
 6. Repository - создание репозитория;
 7. Feature - создание фичи;
 8. UtilityFunction - создание функции-утилиты;
+9. source - создание сурса
 ```
 
 Для получения к ним доступа, после импорта конфигов и перезапуска IDE, нужно зайти в контекстное меню, где вы обычно создаете файлы (New ... )
@@ -39,6 +40,14 @@ File Templates, File Templates (schemes)).
 
 ## Реализованные Live Templates 
 [Что такое Live Templates?](https://www.jetbrains.com/help/webstorm/using-live-templates.html)
+
+### Data 
+
+**networkSource** - создаст сурс.
+
+**repository**  - создаст репозиторий
+
+**dto** создаст неймспейс
 
 ### Styled Components
 **scomp** - создаст styled компонент
