@@ -7,7 +7,7 @@
   "Describe Test Snippet": {
     "prefix": "describeTest",
     "body": [
-          "import { describe, it } from '@example/shared/_tests';",
+          "import { describe, it, expect } from '@example/shared/_tests';",
           "",
           "import { ${1:file} } from './${1:file}';",
           "",
