@@ -21,4 +21,4 @@ COPY .nginx/nginx.conf.template /etc/nginx/nginx.conf.template
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
 # Запускаем контейнер при помощи exec в shell оболочке, чтобы иметь доступ к env
-ENTRYPOINT ["sh", "/usr/share/nginx/html/scripts/generateEnv.prod.sh"]
+ENTRYPOINT ["sh", "/usr/share/nginx/html/scripts/startup.prod.sh"]
