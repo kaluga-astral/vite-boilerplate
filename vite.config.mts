@@ -25,4 +25,5 @@ export default defineConfig({
     sourcemap: !isProdStand,
     outDir: path.resolve(__dirname, 'dist'),
   },
+  envPrefix: ['PUBLIC_', 'PRIVATE_']
 });

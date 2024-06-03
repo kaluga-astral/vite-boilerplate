@@ -43,3 +43,12 @@ declare module '*.svg' {
 
   export default src;
 }
+
+interface Window {
+  __ENV__: {
+    PUBLIC_API_URL: string;
+    PUBLIC_SENTRY_DSN: string;
+    PUBLIC_SENTRY_ENV: string;
+    PUBLIC_RELEASE_TAG: string;
+  };
+}

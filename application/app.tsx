@@ -27,10 +27,10 @@ import {
 import { routes } from './routes';
 
 configService.init({
-  apiUrl: import.meta.env.VITE_API_URL,
-  monitoringDsn: import.meta.env.VITE_SENTRY_DSN,
-  monitoringStand: import.meta.env.VITE_SENTRY_ENV,
-  monitoringRelease: import.meta.env.VITE_RELEASE,
+  apiUrl: window.__ENV__.PUBLIC_API_URL,
+  monitoringDsn: window.__ENV__.PUBLIC_SENTRY_DSN,
+  monitoringStand: window.__ENV__.PUBLIC_SENTRY_ENV,
+  monitoringRelease: window.__ENV__.PUBLIC_RELEASE_TAG,
 });
 
 initApiHttpClient();
