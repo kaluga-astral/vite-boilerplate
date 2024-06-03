@@ -8,7 +8,7 @@
     "dev": "npm run env:dev && vite dev",
     "build": "npm run env:prod",
     "env:dev": "sh ./scripts/generateEnv.dev.sh",
-    "env:prod": "PUBLIC_WS_URL='22' sh ./scripts/generateEnv.prod.sh",
+    "env:prod": "sh ./scripts/generateEnv.prod.sh",
     "lint:types": "tsc --noEmit",
     "lint": "eslint --fix --quiet",
     "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet",
