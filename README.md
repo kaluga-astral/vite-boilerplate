@@ -3,6 +3,10 @@
 - После клонирования необходимо обновить все основные пакеты до последней версии
 - Глобально заменить "@example" на alias продукта
 
+# Работа с env
+
+Используется [единый паттерн работы с env]().
+
 # Архитектура
 
 Используется единый [Astral Architecture Guide](https://industrious-search-cdf.notion.site/Astral-Frontend-Architecture-Guide-cbb7ccaa69384c65aec35292a5c13e2a).
