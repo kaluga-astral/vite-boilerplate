@@ -27,8 +27,22 @@ done
 # Вычисляем md5-хеш из переменной ENVS с помощью openssl
 hash=$(printf "%s" "${ENVS}" | openssl dgst -md5 | awk '{print $2}')
 
-# Создаем оы файл с хэшом в имени. Хэш необходим для правильной работы http cache
+# Создаем файл с хэшом в имени. Хэш необходим для правильной работы http cache
 printf "window.__ENV__={%s};\n" "${ENVS}" > ./env."$hash".js
+
+# Модифицируем ссылку на env.js файл, чтобы в названии был нужный хэш
+
+# Читаем файл
+html="./index.html"
+
+# Читаем content файла
+content=$(cat "$html")
+
+# Заменяем в html ссылку на env.js
+newContent=$(echo "$content" | sed "s/env.js/env.$hash.js/")
+
+# Перезаписываем html с новым содержимым
+echo "$newContent" > "$html"
 
 # Подстановка переменных в nginx.conf
 
