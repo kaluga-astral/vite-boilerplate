@@ -5,7 +5,7 @@
 
 # Работа с env
 
-Используется [единый паттерн работы с env]().
+Используется [единый паттерн работы с env](https://kaluga-astral.github.io/guides/docs/category/%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-env).
 
 # Архитектура
 
