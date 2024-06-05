@@ -19,11 +19,11 @@ export default defineConfig({
     svgrPlugin({ svgrOptions: { icon: true } }),
     tsconfigPaths(),
   ],
-  root: 'application',
   logLevel: isProdStand ? 'error' : 'info',
   build: {
     target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
     sourcemap: !isProdStand,
     outDir: path.resolve(__dirname, 'dist'),
   },
+  envPrefix: ['PUBLIC_', 'PRIVATE_']
 });

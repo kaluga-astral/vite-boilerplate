@@ -27,7 +27,7 @@ http {
         add_header X-Frame-Options SAMEORIGIN;
         add_header X-Content-Type-Options nosniff;
         add_header X-XSS-Protection "1; mode=block";
-        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru https://yastatic.net https://www.google.com https://www.gstatic.com; img-src 'self' www.gstatic.com https://mc.yandex.ru; frame-src www.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self' https://sentry.infra.yandex.astral-dev.ru/ https://mc.yandex.ru wss://127.0.0.1:9393/RegistrationOffice";
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru https://yastatic.net https://www.google.com https://www.gstatic.com; img-src 'self' www.gstatic.com https://mc.yandex.ru; frame-src www.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self' ${PUBLIC_WS_URL} https://sentry.infra.yandex.astral-dev.ru/ https://mc.yandex.ru wss://127.0.0.1:9393/RegistrationOffice";
         add_header Strict-Transport-Security "max-age=31536000";
 
         #Статика фронтенда

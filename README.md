@@ -3,6 +3,10 @@
 - После клонирования необходимо обновить все основные пакеты до последней версии
 - Глобально заменить "@example" на alias продукта
 
+# Работа с env
+
+Используется [единый паттерн работы с env](https://kaluga-astral.github.io/guides/docs/category/%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-env).
+
 # Архитектура
 
 Используется единый [Astral Architecture Guide](https://industrious-search-cdf.notion.site/Astral-Frontend-Architecture-Guide-cbb7ccaa69384c65aec35292a5c13e2a).

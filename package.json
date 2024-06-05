@@ -1,9 +1,14 @@
 {
   "name": "@astral/vite-boilerplate",
   "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
+    "dev": "npm run env:dev && vite dev",
+    "build": "npm run env:prod && vite build",
+    "env:dev": "sh ./scripts/generateEnv.dev.sh",
+    "env:prod": "sh ./scripts/startup.prod.sh",
     "lint:types": "tsc --noEmit",
     "lint": "eslint --fix --quiet",
     "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet",
