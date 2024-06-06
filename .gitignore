@@ -12,4 +12,4 @@ yarn-error.log*
 tsconfig.tsbuildinfo
 .sentryclirc
 out
-env.js
+index.html

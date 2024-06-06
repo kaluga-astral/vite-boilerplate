@@ -6,7 +6,7 @@
   },
   "scripts": {
     "dev": "npm run env:dev && vite dev",
-    "build": "npm run env:prod && vite build",
+    "build": "vite build",
     "env:dev": "sh ./scripts/generateEnv.dev.sh",
     "env:prod": "sh ./scripts/startup.prod.sh",
     "lint:types": "tsc --noEmit",
