@@ -1,12 +1,14 @@
 #!/bin/bash
+# Создает index.html файл на основе index.template.html и инжектирует в него env
 
 # Скрипт упадет, если какая-либо операция завершалась не удачно
 set -e
 
-# Трансформирует содержимое .env.local в env.js файл для загрузки в рантайме
+HTML='./index.html'
+HTML_TEMPLATE='./index.template.html'
 
 # Очищаем файл
-> ./env.js
+> $HTML
 
 ENVS=''
 ENV_PREFIX='PUBLIC_'
@@ -29,5 +31,11 @@ for line in $(cat ./.env.local | grep -v '^#' | grep '='); do
   esac
 done
 
-# Генерация env.js файл и запись переменных
-echo "window.__ENV__={${ENVS}};" >> ./env.js
+# Читаем content файла
+htmlTemplateContent=$(cat "$HTML_TEMPLATE")
+
+# Заменяет window.__ENV__ на значение переменных
+newContent=$(echo "$htmlTemplateContent" | sed "s|window.__ENV__={}|window.__ENV__={${ENVS}}|g")
+
+# Перезаписываем html с новым содержимым
+echo "$newContent" > "$HTML"

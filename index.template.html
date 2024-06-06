@@ -88,7 +88,10 @@
       sizes="228x228"
       href="/favicons/coast-228x228.png"
     />
-    <script src='/env.js'></script>
+    <script>
+    <!--   При запуске dev команды или запуске docker контейнера в __ENV__ подставятся значения из окружения  -->
+      window.__ENV__={};
+    </script>
   </head>
   <body>
     <div id="root"></div>

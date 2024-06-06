@@ -4,9 +4,14 @@
 set -e
 
 # Переходим в директорию с билдом для nginx
-cd /usr/share/nginx/html
+#cd /usr/share/nginx/html
 
-# Генерация env.js для загрузки env в runtime
+HTML='./index.html'
+HTML_TEMPLATE='./index.template.html'
+
+# Очищаем файл
+> $HTML
+
 ENVS=''
 ENV_PREFIX='PUBLIC_'
 
@@ -27,33 +32,24 @@ for line in $(env | grep '='); do
   esac
 done
 
-# Вычисляем md5-хеш из переменной ENVS с помощью openssl
-hash=$(printf "%s" "${ENVS}" | openssl dgst -md5 | awk '{print $2}')
-
-# Создаем файл с хэшом в имени. Хэш необходим для правильной работы http cache
-printf "window.__ENV__={%s};\n" "${ENVS}" > ./env."$hash".js
-
-# Модифицируем ссылку на env.js файл, чтобы в названии был нужный хэш
-
-# Читаем файл
-html="./index.html"
+# Создание index.html с инжектируемыми env переменными
 
 # Читаем content файла
-content=$(cat "$html")
+htmlTemplateContent=$(cat "$HTML_TEMPLATE")
 
-# Заменяем в html ссылку на env.js
-newContent=$(echo "$content" | sed "s/env.js/env.$hash.js/")
+# Заменяет window.__ENV__ на значение переменных
+newContent=$(echo "$htmlTemplateContent" | sed "s|window.__ENV__={}|window.__ENV__={${ENVS}}|g")
 
 # Перезаписываем html с новым содержимым
-echo "$newContent" > "$html"
+echo "$newContent" > "$HTML"
 
 # Подстановка переменных в nginx.conf
 
 # Необходимо экспортировать, тк envsubst является разветвленным процессом и не знает неэкспортируемых переменных
-export PUBLIC_WS_URL
+#export PUBLIC_WS_URL
 
 # Подмена указанных переменные в nginx.conf.template и копирование всего файла в nginx.conf
-envsubst "${PUBLIC_WS_URL}" < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+#envsubst "${PUBLIC_WS_URL}" < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 
 # Запуск nginx
-nginx -g 'daemon off;'
+#nginx -g 'daemon off;'
