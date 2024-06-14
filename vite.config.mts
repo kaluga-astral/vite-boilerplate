@@ -14,12 +14,10 @@ const isProdStand =
   Boolean(process.env.VITE_STAND?.match(/production|demo|staging/));
 
 const sentryAuthToken = process.env.PUBLIC_SENTRY_AUTH_TOKEN;
-const sentryUrl = process.env.PUBLIC_SENTRY_URL;
 const sentryProject = process.env.PUBLIC_SENTRY_PROJECT;
 const sentryOrg = process.env.PUBLIC_SENTRY_ORG;
+const isSentryEnabled = process.env.PUBLIC_IS_SENTRY_ENABLED === 'true';
 const version = process.env.PUBLIC_VERSION;
-
-const hasEverythingForSentry = Boolean(sentryAuthToken && sentryUrl && sentryProject && sentryOrg);
 
 export default defineConfig({
   plugins: [
@@ -27,7 +25,7 @@ export default defineConfig({
     react(),
     svgrPlugin({ svgrOptions: { icon: true } }),
     tsconfigPaths(),
-    hasEverythingForSentry ? sentryVitePlugin({
+    isSentryEnabled ? sentryVitePlugin({
       org: sentryOrg,
       project: sentryProject,
       authToken: sentryAuthToken,
