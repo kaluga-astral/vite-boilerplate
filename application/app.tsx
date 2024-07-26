@@ -8,6 +8,7 @@ import { useRoutes } from 'react-router-dom';
 import { authStore } from '@example/modules/auth';
 import { permissionsStore } from '@example/modules/permissions';
 import { MainLayout } from '@example/modules/layout';
+import { SedoNotifyProvider } from '@example/modules/sedo/features/SedoNotifyProvider';
 import {
   ConfigProvider,
   ContentState,
@@ -58,6 +59,7 @@ export const App = observer(() => {
       <RouterServiceAdapter />
       <ThemeProvider theme={theme}>
         <NotificationContainer />
+        <SedoNotifyProvider />
         <ContentState
           isError={permissionsStatus.isError}
           isLoading={permissionsStatus.isLoading}

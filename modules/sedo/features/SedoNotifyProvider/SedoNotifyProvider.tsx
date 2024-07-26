@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { appNotifyStoreStore } from '../../domain/AppNotifyStoreStore';
+import { sedoGeneralNotifyStore } from '../../domain/SedoGeneralNotifyStore';
 
 import { useLogic } from './useLogic';
 
-export const AppNotifyProvider = observer(() => {
+export const SedoNotifyProvider = observer(() => {
   const { notifyOnSedoError } = useLogic();
 
   useEffect(() => {
-    appNotifyStoreStore.init({ notifyOnSedoError });
+    sedoGeneralNotifyStore.init({ notifyOnSedoError });
   }, []);
 
   return null;
