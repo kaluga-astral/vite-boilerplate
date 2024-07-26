@@ -2,8 +2,8 @@ import { makeAutoObservable } from 'mobx';
 
 import type { CardPaymentStore } from '@example/modules/payment';
 import { createCardPaymentStore } from '@example/modules/payment';
-import { APP_ROUTES, createFlagStore, router } from '@example/shared';
-import type { RouterService } from '@example/shared';
+import { APP_ROUTES, createFlagStore, notify, router } from '@example/shared';
+import type { Notify, RouterService } from '@example/shared';
 
 export class UIStore {
   private readonly modalStore = createFlagStore();
@@ -11,6 +11,7 @@ export class UIStore {
   constructor(
     private readonly cardPaymentStore: CardPaymentStore,
     private readonly routerService: RouterService,
+    private readonly notifyService: Notify,
   ) {
     makeAutoObservable<UIStore, 'routerService'>(this, {
       routerService: false,
@@ -45,6 +46,7 @@ export class UIStore {
   public pay = () => {
     this.cardPaymentStore.pay({
       onSuccess: () => {
+        this.notifyService.success({ actions: null });
         this.routerService.navigate(APP_ROUTES.cart.getRedirectPath());
       },
     });
@@ -52,4 +54,4 @@ export class UIStore {
 }
 
 export const createUIStore = () =>
-  new UIStore(createCardPaymentStore(), router);
+  new UIStore(createCardPaymentStore(), router, notify);
