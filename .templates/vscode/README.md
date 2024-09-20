@@ -31,6 +31,7 @@ screenWithStore - создание сущности screen + mobxStore
 UIStore - создание UI-стора
 namedStore - создание именнованного mobx-store (namedStore/namedStore.ts)
 utilityFunction - создание функции-утилиты
+form - создание формы
 ```
 
 ## Настройка

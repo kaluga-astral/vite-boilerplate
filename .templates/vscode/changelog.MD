@@ -5,3 +5,6 @@
 3. Добавлены live templates: repository, networkSource, dto
 4. Исправлены отступы в repositoryDTO
 
+20.09.2024
+
+Добавлен темплейт для формы

@@ -5,3 +5,6 @@
 3. Добавлен File Template для sources
 4. Добавлены live templates: repository, networkSource, dto
 
+20.09.2024
+
+Добавлен File Template для Form
